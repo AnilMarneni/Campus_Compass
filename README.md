@@ -1,183 +1,440 @@
-# CampusCompass — Full Stack College Discovery Platform
+# CampusCompass 🎓
 
-CampusCompass is a production-grade SaaS-style MVP designed to simplify higher education research for students in India. Rather than overwhelming users with ads and marketplaces, the platform focuses on instant query filters, side-by-side comparison matrices, and user-authenticated saved dashboards.
+### Production-Grade College Discovery & Comparison Platform
+
+CampusCompass is a modern full-stack web application that helps students discover, evaluate, compare, and shortlist colleges across India using verified academic, placement, fee, and institutional data.
+
+Built with a production-oriented architecture using Next.js 15, TypeScript, Prisma 7, Neon PostgreSQL, and Tailwind CSS, the platform delivers a fast, responsive, and data-driven college exploration experience.
 
 ---
 
-## 1. System Architecture & Rendering Strategy
+## ✨ Features
 
-### Request Flow
-```txt
-[Client UI (Next.js RCC)]
-        │ (Debounced URL Synchronizer)
-        ▼
-[Next.js App Router (RSC)] ───► [NextAuth.js Session Handler]
-        │
-        ├─► [API Routes (Query Validations & Body Parsers)]
-        │        │
-        │        ▼
-        ├─► [Database Service Layer]
-        │        │
-        │        ▼
-        └─► [Prisma ORM Database Client]
-                 │
-                 ▼
-        [SQLite / Neon PostgreSQL]
+### 🔍 Smart College Discovery
+
+* Search colleges by name, location, course, or institution type
+* Dynamic filtering system
+* Real-time debounced search
+* Fast server-side rendered listings
+* Clean card-based browsing experience
+
+### 📊 Detailed College Profiles
+
+Each college profile includes:
+
+* Institution overview
+* Fees & tuition information
+* Placement statistics
+* Highest and average salary packages
+* Establishment details
+* Campus size
+* Student & faculty counts
+* Accreditation & NAAC grades
+* Recruiter information
+* Student reviews
+
+### ⚖️ Side-by-Side College Comparison
+
+Compare up to 3 colleges simultaneously.
+
+Comparison metrics include:
+
+* Annual fees
+* Ratings
+* Placement rate
+* Average package
+* Highest package
+* Establishment year
+* Student count
+* Accreditation
+
+Best values are automatically highlighted for faster decision-making.
+
+### ❤️ Saved Colleges Dashboard
+
+Authenticated users can:
+
+* Save favorite colleges
+* Manage bookmarks
+* Track shortlisted institutions
+
+### 👤 Authentication System
+
+* Secure email/password authentication
+* Password hashing with bcrypt
+* Session management using NextAuth
+* Protected dashboard routes
+
+### 📈 Data Transparency
+
+The platform emphasizes transparency by displaying:
+
+* Placement reporting year
+* Placement data sources
+* Institutional metadata
+* NIRF-related reference information
+
+---
+
+# 🏗️ System Architecture
+
+```text
+┌─────────────────────────┐
+│       Next.js 15        │
+│      App Router         │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│ Server Components (SSR) │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│      API Layer          │
+│   Zod Validations       │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│      Prisma ORM         │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│   Neon PostgreSQL DB    │
+└─────────────────────────┘
 ```
 
-### Rendering Strategies
-- **Server Components (RSC)**: 
-  - **Listing page (`/colleges`)**: Skeletons and page containers render on the server, executing query parses and database fetches directly via Prisma to minimize client JS bundles.
-  - **Detail page (`/colleges/[id]`)**: Fetches full college details, courses, and student reviews on the server for instant page loads and optimal SEO.
-- **Client Components (RCC)**:
-  - **Search & Filters**: Debounces keystrokes (400ms) and synchronizes states directly with the URL SearchParams.
-  - **Compare Context**: Local storage-backed state coordinator (`CompareContext`) checking boundaries (max 3 colleges) and updating the floating compare footer bar.
-  - **Bookmark Saves & Auth**: Coordinates optimistic UI updates (toggling saved states instantly and rolling back on network failure) and hashes credentials on submit.
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+* Next.js 15
+* React 19
+* TypeScript
+* Tailwind CSS v4
+* shadcn/ui
+* Lucide React
+
+## Backend
+
+* Next.js Route Handlers
+* Prisma 7
+* Neon PostgreSQL
+* Zod
+
+## Authentication
+
+* NextAuth.js
+* bcryptjs
+
+## Database
+
+* PostgreSQL
+* Prisma ORM
+
+## Deployment Ready
+
+* Vercel
+* Neon Database
+* Server Components
+* Dynamic Rendering
 
 ---
 
-## 2. Database Relation Schema
+# 📂 Project Structure
 
-```mermaid
-erDiagram
-  USER ||--o{ SAVED_COLLEGE : saves
-  COLLEGE ||--o{ SAVED_COLLEGE : saved_by
-  COLLEGE ||--|{ COURSE : offers
-  COLLEGE ||--o{ REVIEW : receives
-
-  USER {
-    string id PK
-    string name
-    string email UK
-    string password
-    string image
-    datetime createdAt
-  }
-
-  COLLEGE {
-    string id PK
-    string name
-    string location
-    string description
-    string image
-    int fees
-    float rating
-    float placementRate
-  }
-
-  COURSE {
-    string id PK
-    string name
-    string duration
-    int fees
-    string collegeId FK
-  }
-
-  REVIEW {
-    string id PK
-    string userName
-    float rating
-    string comment
-    string collegeId FK
-    datetime createdAt
-  }
-
-  SAVED_COLLEGE {
-    string id PK
-    string userId FK
-    string collegeId FK
-  }
+```text
+campus-compass/
+│
+├── app/
+│   ├── colleges/
+│   ├── compare/
+│   ├── dashboard/
+│   ├── login/
+│   ├── register/
+│   └── api/
+│
+├── components/
+│
+├── lib/
+│   ├── prisma.ts
+│   ├── auth.ts
+│   ├── validations.ts
+│   └── utils.ts
+│
+├── prisma/
+│   └── schema.prisma
+│
+├── scripts/
+│   ├── generate-data.ts
+│   ├── import-nirf.ts
+│   ├── enrich-colleges.ts
+│   └── data/
+│
+└── public/
 ```
 
-- **Cascade Deletions**: Deleting a college cascades to automatically purge all associated `Course` records, `Review` records, and user bookmark references.
-- **Indices**: Applied on `College(name)`, `College(location)`, `Course(collegeId)`, `Review(collegeId)`, and `SavedCollege(userId)` to expedite text searches and join indexes.
+---
+
+# 🗄️ Database Models
+
+### User
+
+Stores registered user accounts.
+
+### College
+
+Stores institutional data:
+
+* Fees
+* Ratings
+* Placements
+* NIRF metadata
+* Campus details
+
+### Course
+
+Courses offered by each college.
+
+### Recruiter
+
+Top hiring companies.
+
+### Review
+
+Student-generated reviews and ratings.
+
+### SavedCollege
+
+Bookmarks created by users.
 
 ---
 
-## 3. Technology Stack
+# 📥 Data Pipeline
 
-- **Frontend**: Next.js 15 App Router, React 19, TypeScript, Tailwind CSS, Lucide icons, Sonner notifications.
-- **Backend & Security**: Next.js API Routes, NextAuth.js credentials verification, bcryptjs password hashing, Zod validation schemas.
-- **Database ORM**: Prisma ORM v7 (configured with dynamic driver adapters to support LibSQL/SQLite connections locally).
+CampusCompass uses a two-stage ingestion pipeline.
 
----
+## Stage 1 — Import Core Data
 
-## 4. Visual Walkthrough (Mockups)
-
-### College Explorer Page
-![College Listing Screenshot](./public/college_listing.png)
-
-### Side-by-side Comparison Matrix
-![College Comparison Screenshot](./public/college_comparison.png)
-
----
-
-## 5. Lighthouse Audits & Metrics
-
-The application layout has been optimized using Next.js Server Components, localized interactivity client boundaries, dynamic metadata titles/descriptions, and responsive layout constraints:
-
-| Category | Score | Notes / Optimizations |
-| :--- | :---: | :--- |
-| **Performance** | **94%** | Direct database reads on Server Components, zero hydration delay, CSS-only v4 themes, and lazy-loading image fallbacks. |
-| **Accessibility** | **98%** | Explicit focus rings, ARIA labels, semantic landmark elements (`<main>`, `<aside>`, `<nav>`), and high contrast typography scale. |
-| **Best Practices** | **100%** | Webpack production builds, HTTPS schema validations, zero direct-DOM manipulation libraries. |
-| **SEO** | **100%** | Dynamically rendered titles/descriptions, semantic `h1` layouts, and clean parameterized query URLs. |
-
----
-
-## 6. Setup & Running Locally (Zero-Config)
-
-CampusCompass is configured to run out-of-the-box using local SQLite files and JS driver adapters, meaning **no local PostgreSQL installation is required to test the prototype**.
-
-### 1. Configure Environments
-Create a `.env` file in the root directory:
-```env
-DATABASE_URL="file:./dev.db"
-NEXTAUTH_SECRET="f39bc5393d25d8881452144eb9b80362"
-NEXTAUTH_URL="http://localhost:3000"
-```
-
-### 2. Install Packages & Initialize DB
 ```bash
-# Install dependencies
-npm install
-
-# Run database migrations
-npx prisma migrate dev --name init
-
-# Generate Prisma Client
-npx prisma generate
-
-# Seed 20+ realistic Indian colleges
-npx tsx prisma/seed.ts
+npm run import:nirf
 ```
 
-### 3. Start Development Server
+Imports:
+
+* College records
+* Institution metadata
+* NIRF-related information
+
+---
+
+## Stage 2 — Enrichment
+
+```bash
+npm run enrich:colleges
+```
+
+Adds:
+
+* Placement statistics
+* Recruiters
+* Courses
+* Reviews
+* Extended institutional data
+
+---
+
+# 🚀 Getting Started
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/yourusername/campus-compass.git
+
+cd campus-compass
+```
+
+---
+
+## 2. Install Dependencies
+
+```bash
+npm install
+```
+
+---
+
+## 3. Configure Environment Variables
+
+Create:
+
+```bash
+.env
+```
+
+Add:
+
+```env
+DATABASE_URL=
+
+NEXTAUTH_SECRET=
+
+NEXTAUTH_URL=http://localhost:3000
+```
+
+---
+
+## 4. Generate Prisma Client
+
+```bash
+npx prisma generate
+```
+
+---
+
+## 5. Run Database Migration
+
+```bash
+npx prisma db push
+```
+
+---
+
+## 6. Seed College Data
+
+```bash
+npm run import:nirf
+
+npm run enrich:colleges
+```
+
+---
+
+## 7. Start Development Server
+
 ```bash
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-*Login using the seeded user details:*
-- **Email**: `aditya@example.com`
-- **Password**: `admin123`
+Visit:
 
----
-
-## 7. Known Limitations & MVP Constraints
-
-As a realistic early-stage engineering project, CampusCompass accepts the following tradeoffs:
-- **No Advanced Search Indexing**: Keyword searches rely on database `LIKE` filters. For large production datasets (e.g. 50,000+ entries), this should be delegated to a dedicated search index engine like Algolia or Meilisearch.
-- **No Distributed Caching**: Listings read directly from the database query engine. Heavy traffic would benefit from adding a Redis cache layer for explore views.
-- **Review Moderation**: Reviews are posted directly to the database. A production platform requires a moderation pipeline (e.g. review queuing or automated toxicity filter).
-- **Pagination Model**: Handled via standard database offset bounds (`page`, `limit`), which is optimal for MVP scale. Infinite scroll cursor-based models are better suited for infinite social streams.
-- **No AI Recommendations**: Selections are side-by-side compared via a structured matrix. Extensible endpoints exist to pipe compare profiles directly into a vector recommendation model later.
+```text
+http://localhost:3000
+```
 
 ---
 
-## 8. Architectural & Design Tradeoffs
+# 🔐 Demo Credentials
 
-1. **SQLite vs. PostgreSQL**: Local SQLite via `@prisma/adapter-libsql` was chosen to guarantee that reviewers can pull, seed, and run the code with zero dependencies. The schema and queries remain fully compatible with PostgreSQL (Neon) by swapping `provider = "postgresql"` in `schema.prisma`.
-2. **Offset Pagination vs. Cursor Pagination**: Offset pagination was selected because it is superior for academic discovery. It enables clear page-direct navigation (e.g. going straight to page 3) and returns accurate search result metrics, which infinite scrolls cannot support.
-3. **URL SearchParams Synchronizations**: Bypassing client-side react-query states in favor of URL parameter updates simplifies state coordination. It allows page sharing and makes the search completely bookmarkable.
-4. **Next.js Webpack vs. Turbopack**: Bypassed Next.js `--turbopack` compile flags to resolve native Turbopack compilation errors associated with parsing LICENSE files inside third-party CJS node modules.
+```text
+Email:
+aditya@example.com
+
+Password:
+admin123
+```
+
+---
+
+# 🎯 Use Cases
+
+### Students
+
+* Discover colleges
+* Compare institutions
+* Analyze placements
+* Evaluate affordability
+
+### Parents
+
+* Research institutions
+* Compare ROI
+* Understand placement outcomes
+
+### Career Counselors
+
+* Recommend colleges
+* Create comparison reports
+* Guide admission decisions
+
+---
+
+# 🌟 Key Highlights
+
+✅ Full-stack TypeScript architecture
+
+✅ Server-side rendering for SEO
+
+✅ PostgreSQL production database
+
+✅ Prisma ORM integration
+
+✅ Secure authentication system
+
+✅ Dynamic comparison engine
+
+✅ College bookmarking system
+
+✅ Structured data ingestion pipeline
+
+✅ Responsive modern UI
+
+✅ Production-ready SaaS architecture
+
+---
+
+# 🔮 Future Enhancements
+
+* AI-powered college recommendations
+* Predictive admission chances
+* Scholarship discovery engine
+* Cutoff and entrance exam analytics
+* College review verification
+* Alumni networking
+* Real-time placement dashboards
+* Personalized student profiles
+
+---
+
+# 🤖 AI Integration Opportunities (Gemma)
+
+CampusCompass can leverage Google's Gemma models to provide intelligent student assistance:
+
+### Smart College Advisor
+
+Recommend colleges based on:
+
+* Rank
+* Budget
+* Location
+* Career goals
+
+### College Comparison Summaries
+
+Generate natural-language insights from comparison data.
+
+### Placement Analysis
+
+Explain placement trends and recruiter patterns.
+
+### Student Q&A Assistant
+
+Answer college-related questions using platform data.
+
+### Admission Guidance
+
+Provide personalized application roadmaps.
+
+---
+
+# 📄 License
+
+This project is intended for educational, portfolio, hackathon, and learning purposes.
+
+---
+
+### Built with ❤️ using Next.js, Prisma, PostgreSQL, and TypeScript.
