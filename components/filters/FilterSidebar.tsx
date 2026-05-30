@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useTransition } from 'react';
+import React, { useState, useEffect, useTransition, useCallback } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Search, MapPin, IndianRupee, Star, BookOpen, RotateCcw, SlidersHorizontal } from 'lucide-react';
 
@@ -60,8 +60,7 @@ export default function FilterSidebar() {
     setSortBy(searchParams.get('sortBy') || 'rating');
   }, [searchParams]);
 
-  // Push updates to URL SearchParams
-  const updateFilters = (updates: Record<string, string | null>) => {
+  const updateFilters = useCallback((updates: Record<string, string | null>) => {
     const params = new URLSearchParams(searchParams.toString());
     
     // Reset to page 1 on filter modification
@@ -78,7 +77,7 @@ export default function FilterSidebar() {
     startTransition(() => {
       router.push(`${pathname}?${params.toString()}`);
     });
-  };
+  }, [searchParams, pathname, router]);
 
   // Debounced search input trigger
   useEffect(() => {
@@ -90,7 +89,7 @@ export default function FilterSidebar() {
     }, 400);
 
     return () => clearTimeout(delayDebounce);
-  }, [searchText]);
+  }, [searchText, searchParams, updateFilters]);
 
   const handleReset = () => {
     setSearchText('');

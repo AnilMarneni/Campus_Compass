@@ -7,7 +7,7 @@ import CollegeHero from '@/components/college/CollegeHero';
 import CourseList from '@/components/college/CourseList';
 import ReviewsSection from '@/components/college/ReviewsSection';
 import { notFound } from 'next/navigation';
-import { Building2, Landmark, Trophy, FileText, Calendar, Map, Award, CheckCircle, Users, BookOpen, Briefcase, GraduationCap } from 'lucide-react';
+import { Building2, Trophy, FileText, Calendar, Map, Award, CheckCircle, Users, BookOpen, Briefcase, GraduationCap } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface PageProps {

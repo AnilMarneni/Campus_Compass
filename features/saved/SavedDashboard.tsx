@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import CollegeCard from '@/components/college/CollegeCard';
 import { Button } from '@/components/ui/button';
-import { GitCompare, Bookmark, Compass, HeartOff, Star, BarChart3, Clock, ArrowRight, Award } from 'lucide-react';
+import { GitCompare, Bookmark, Compass, HeartOff, Star, BarChart3, Clock, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 
@@ -40,7 +40,7 @@ interface SavedDashboardProps {
 }
 
 export default function SavedDashboard({ initialSaved, user }: SavedDashboardProps) {
-  const [savedItems, setSavedItems] = useState<SavedCollegeItem[]>(initialSaved);
+  const [savedItems] = useState<SavedCollegeItem[]>(initialSaved);
   const [compareSelection, setCompareSelection] = useState<string[]>([]);
   const [totalComparisons, setTotalComparisons] = useState(4);
 
@@ -54,24 +54,7 @@ export default function SavedDashboard({ initialSaved, user }: SavedDashboardPro
     }
   }, []);
 
-  const handleUnsave = async (collegeId: string, name: string) => {
-    try {
-      const res = await fetch(`/api/saved/${collegeId}`, {
-        method: 'DELETE',
-      });
-      const data = await res.json();
-      
-      if (!res.ok || !data.success) {
-        throw new Error(data.message || 'Failed to unsave');
-      }
 
-      setSavedItems((prev) => prev.filter((item) => item.college.id !== collegeId));
-      setCompareSelection((prev) => prev.filter((id) => id !== collegeId));
-      toast.success(`Removed ${name} from saved list`);
-    } catch (err: any) {
-      toast.error(err.message || 'An error occurred while removing');
-    }
-  };
 
   const handleToggleSelectCompare = (id: string) => {
     if (compareSelection.includes(id)) {
@@ -242,7 +225,7 @@ export default function SavedDashboard({ initialSaved, user }: SavedDashboardPro
               <div className="space-y-1">
                 <h4 className="font-bold text-base text-gray-900">Your dashboard is empty</h4>
                 <p className="text-xs text-gray-450 max-w-xs mx-auto leading-normal">
-                  You haven't bookmarked any colleges yet. Explore the listings to start building your favorites list.
+                  You haven&apos;t bookmarked any colleges yet. Explore the listings to start building your favorites list.
                 </p>
               </div>
               <Link href="/colleges" className="pt-2">
@@ -296,7 +279,7 @@ export default function SavedDashboard({ initialSaved, user }: SavedDashboardPro
               <p className="text-xs text-gray-400 font-medium">No recent bookmark activity.</p>
             ) : (
               <div className="space-y-3 divide-y divide-gray-50">
-                {recentlySaved.map((item, index) => (
+                {recentlySaved.map((item) => (
                   <div key={item.id} className={`pt-3 first:pt-0 flex flex-col space-y-1`}>
                     <Link href={`/colleges/${item.college.id}`} className="text-xs font-bold text-gray-800 hover:text-indigo-650 line-clamp-1 transition-colors">
                       {item.college.name}

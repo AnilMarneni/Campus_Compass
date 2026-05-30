@@ -44,7 +44,7 @@ export async function DELETE(
     });
 
     return apiSuccess({ message: 'Removed from favorites list' });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in DELETE /api/saved/[id]:', error);
     return apiError('Internal server error occurred', 500);
   }

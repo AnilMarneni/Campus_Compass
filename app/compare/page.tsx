@@ -2,7 +2,7 @@ import React from 'react';
 import { prisma } from '@/lib/prisma';
 import { Button } from '@/components/ui/button';
 import { formatINR } from '@/lib/utils';
-import { GitCompare, MapPin, Star, GraduationCap, IndianRupee, ArrowLeft, Plus, Briefcase, Calendar, Building2, Award, CheckCircle, BookOpen, Trophy, SlidersHorizontal } from 'lucide-react';
+import { GitCompare, MapPin, Star, GraduationCap, IndianRupee, ArrowLeft, Plus, Briefcase, Calendar, Building2, Award, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { Metadata } from 'next';
 

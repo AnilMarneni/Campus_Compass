@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Compass, HelpCircle, ArrowRight } from 'lucide-react';
+import { HelpCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function NotFound() {

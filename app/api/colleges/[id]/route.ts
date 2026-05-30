@@ -30,7 +30,7 @@ export async function GET(
     }
 
     return apiSuccess(college);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in GET /api/colleges/[id]:', error);
     return apiError('Internal server error occurred', 500);
   }

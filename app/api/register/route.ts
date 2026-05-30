@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     });
 
     return apiSuccess({ user }, 201);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in POST /api/register:', error);
     return apiError('Internal server error occurred', 500);
   }

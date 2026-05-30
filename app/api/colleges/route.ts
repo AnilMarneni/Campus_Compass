@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
         limit,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in GET /api/colleges:', error);
     return apiError('Internal server error occurred', 500);
   }

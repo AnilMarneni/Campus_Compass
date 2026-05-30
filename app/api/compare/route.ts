@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
       .filter((col): col is NonNullable<typeof col> => !!col);
 
     return apiSuccess(orderedColleges);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in GET /api/compare:', error);
     return apiError('Internal server error occurred', 500);
   }

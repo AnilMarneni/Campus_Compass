@@ -89,9 +89,10 @@ export default function CollegeHero({ college, initialIsSaved = false }: College
         }
         toast.success(`Saved ${college.name} to favorites`);
       }
-    } catch (err: any) {
+    } catch (err) {
       setIsSaved(previousState);
-      toast.error(err.message || 'An error occurred. Please try again.');
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred. Please try again.';
+      toast.error(errorMessage);
     } finally {
       setIsSaving(false);
     }

@@ -58,7 +58,7 @@ export async function POST(
     });
 
     return apiSuccess(review, 201);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in POST /api/colleges/[id]/reviews:', error);
     return apiError('Internal server error occurred', 500);
   }

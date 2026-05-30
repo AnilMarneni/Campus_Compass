@@ -72,8 +72,9 @@ export default function ReviewsSection({ collegeId, reviews: initialReviews }: R
       
       // Refresh page data
       router.refresh();
-    } catch (err: any) {
-      toast.error(err.message || 'An error occurred while posting your review.');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred while posting your review.';
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

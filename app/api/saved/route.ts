@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     });
 
     return apiSuccess(savedCollege, 210);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error in POST /api/saved:', error);
     return apiError('Internal server error occurred', 500);
   }
