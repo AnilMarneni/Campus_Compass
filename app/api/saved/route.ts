@@ -13,6 +13,14 @@ export async function POST(request: NextRequest) {
       return apiError('Unauthorized. Please log in first.', 401);
     }
 
+    // Verify user exists in database (in case of database reset/stale session)
+    const userExists = await prisma.user.findUnique({
+      where: { id: session.user.id },
+    });
+    if (!userExists) {
+      return apiError('Session invalid. Please log out and log in again.', 401);
+    }
+
     const body = await request.json().catch(() => ({}));
     
     // Validate input payload
