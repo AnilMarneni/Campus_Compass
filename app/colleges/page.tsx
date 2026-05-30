@@ -10,7 +10,6 @@ import MobileFilterDrawer from '@/components/filters/MobileFilterDrawer';
 import { Button } from '@/components/ui/button';
 import { Compass, GraduationCap, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { Prisma } from '@prisma/client';
 import DataTransparency from '@/components/layout/DataTransparency';
 
 export const metadata: Metadata = {
@@ -64,12 +63,12 @@ export default async function CollegesPage({ searchParams }: PageProps) {
     limit,
   } = query;
 
-  const where: Prisma.CollegeWhereInput = {
+  const where: any = {
     rating: { gte: minRating },
     fees: { gte: minFees, lte: maxFees },
   };
 
-  const andConditions: Prisma.CollegeWhereInput[] = [];
+  const andConditions: any[] = [];
 
   if (search) {
     const keywords = search.split(/\s+/).filter(Boolean);
@@ -120,7 +119,7 @@ export default async function CollegesPage({ searchParams }: PageProps) {
     where.AND = andConditions;
   }
 
-  const orderBy: Prisma.CollegeOrderByWithRelationInput = {};
+  const orderBy: any = {};
   if (sortBy === 'rating') {
     orderBy.rating = sortOrder;
   } else if (sortBy === 'fees') {
