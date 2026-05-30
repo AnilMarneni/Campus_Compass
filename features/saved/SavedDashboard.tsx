@@ -40,9 +40,14 @@ interface SavedDashboardProps {
 }
 
 export default function SavedDashboard({ initialSaved, user }: SavedDashboardProps) {
-  const [savedItems] = useState<SavedCollegeItem[]>(initialSaved);
+  const [savedItems, setSavedItems] = useState<SavedCollegeItem[]>(initialSaved);
   const [compareSelection, setCompareSelection] = useState<string[]>([]);
   const [totalComparisons, setTotalComparisons] = useState(4);
+
+  const handleUnsave = (collegeId: string) => {
+    setSavedItems((prev) => prev.filter((item) => item.college.id !== collegeId));
+    setCompareSelection((prev) => prev.filter((id) => id !== collegeId));
+  };
 
   // Sync with client-side comparisons count
   useEffect(() => {
@@ -244,6 +249,7 @@ export default function SavedDashboard({ initialSaved, user }: SavedDashboardPro
                     <CollegeCard
                       college={item.college}
                       initialIsSaved={true}
+                      onUnsave={handleUnsave}
                     />
 
                     {/* Checkbox bar for comparison selection */}

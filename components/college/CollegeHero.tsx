@@ -153,26 +153,13 @@ export default function CollegeHero({ college, initialIsSaved = false }: College
               </span>
             </div>
 
-            <div className="flex items-start space-x-4">
-              {college.logo ? (
-                <img
-                  src={college.logo}
-                  alt={`${college.name} logo`}
-                  className="h-16 w-16 object-cover rounded-xl border border-gray-200 bg-white p-1 shrink-0 shadow-xs"
-                />
-              ) : (
-                <div className="h-16 w-16 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-650 font-bold shrink-0 shadow-xs text-xl">
-                  {college.name[0]}
-                </div>
-              )}
-              <div className="space-y-1">
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 leading-tight">
-                  {college.name}
-                </h1>
-                <div className="flex items-center text-sm text-gray-500">
-                  <MapPin className="h-4.5 w-4.5 text-gray-400 mr-1 flex-shrink-0" />
-                  <span>{college.location}</span>
-                </div>
+            <div className="space-y-1">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 leading-tight">
+                {college.name}
+              </h1>
+              <div className="flex items-center text-sm text-gray-500">
+                <MapPin className="h-4.5 w-4.5 text-gray-400 mr-1 flex-shrink-0" />
+                <span>{college.location}</span>
               </div>
             </div>
 

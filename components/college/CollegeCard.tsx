@@ -39,6 +39,7 @@ interface CollegeCardProps {
     institutionType?: string | null;
   };
   initialIsSaved?: boolean;
+  onUnsave?: (collegeId: string) => void;
 }
 
 const getAbbreviation = (name: string) => {
@@ -63,7 +64,7 @@ const getAbbreviation = (name: string) => {
   return name.split(' ')[0] || name;
 };
 
-export default function CollegeCard({ college, initialIsSaved = false }: CollegeCardProps) {
+export default function CollegeCard({ college, initialIsSaved = false, onUnsave }: CollegeCardProps) {
   const { data: session } = useSession();
   const { addToCompare, removeFromCompare, isInCompare } = useCompare();
   const [isSaved, setIsSaved] = useState(initialIsSaved);
@@ -120,6 +121,9 @@ export default function CollegeCard({ college, initialIsSaved = false }: College
           throw new Error(data.message || 'Failed to remove saved college');
         }
         toast.success(`Removed ${college.name} from saved list`);
+        if (onUnsave) {
+          onUnsave(college.id);
+        }
       } else {
         // Save request
         const res = await fetch('/api/saved', {
@@ -176,35 +180,22 @@ export default function CollegeCard({ college, initialIsSaved = false }: College
       </Link>
 
       <CardContent className="flex flex-col flex-grow p-5 space-y-4">
-        {/* Logo and Name/Location Header */}
-        <div className="flex items-start space-x-3">
-          {college.logo ? (
-            <img
-              src={college.logo}
-              alt={`${college.name} logo`}
-              className="h-10 w-10 object-cover rounded-lg border border-gray-150 bg-white p-0.5 shrink-0 mt-0.5"
-            />
-          ) : (
-            <div className="h-10 w-10 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-650 font-bold shrink-0 mt-0.5 text-sm">
-              {college.name[0]}
-            </div>
-          )}
-          <div className="space-y-1 min-w-0 flex-1">
-            <Link href={`/colleges/${college.id}`}>
-              <h3 className="font-bold text-sm text-gray-900 group-hover:text-indigo-600 transition-colors line-clamp-2 leading-snug">
-                {college.name}
-              </h3>
-            </Link>
-            <div className="flex items-center space-x-1.5 text-xs text-gray-500">
-              <MapPin className="h-3.5 w-3.5 text-gray-400 shrink-0" />
-              <span className="truncate">{college.location.split(',')[0]}</span>
-              {college.institutionType && (
-                <>
-                  <span className="text-gray-300">•</span>
-                  <span className="font-semibold bg-slate-100 text-slate-700 px-1 rounded text-[9px] uppercase tracking-wider shrink-0">{college.institutionType}</span>
-                </>
-              )}
-            </div>
+        {/* Name/Location Header */}
+        <div className="space-y-1 min-w-0 flex-1">
+          <Link href={`/colleges/${college.id}`}>
+            <h3 className="font-bold text-sm text-gray-900 group-hover:text-indigo-600 transition-colors line-clamp-2 leading-snug">
+              {college.name}
+            </h3>
+          </Link>
+          <div className="flex items-center space-x-1.5 text-xs text-gray-500">
+            <MapPin className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+            <span className="truncate">{college.location.split(',')[0]}</span>
+            {college.institutionType && (
+              <>
+                <span className="text-gray-300">•</span>
+                <span className="font-semibold bg-slate-100 text-slate-700 px-1 rounded text-[9px] uppercase tracking-wider shrink-0">{college.institutionType}</span>
+              </>
+            )}
           </div>
         </div>
 

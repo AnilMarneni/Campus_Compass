@@ -86,7 +86,7 @@ export default async function CollegeDetailPage({ params }: PageProps) {
       <CollegeHero college={college} initialIsSaved={isSaved} />
 
       {/* Sticky Tab Navigation bar */}
-      <div className="sticky top-16 z-25 bg-white/95 backdrop-blur-xs border-b border-gray-200 shadow-3xs">
+      <div className="sticky top-16 z-40 bg-white/95 backdrop-blur-xs border-b border-gray-200 shadow-3xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex space-x-8 h-12 items-center text-xs font-semibold text-gray-500 uppercase tracking-wider overflow-x-auto whitespace-nowrap">
             <a href="#overview" className="hover:text-indigo-650 py-3 border-b-2 border-transparent hover:border-indigo-600 transition-all">

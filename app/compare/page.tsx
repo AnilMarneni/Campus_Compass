@@ -115,20 +115,13 @@ export default async function ComparePage({ searchParams }: PageProps) {
                 {orderedColleges.map((college) => (
                   <th key={college.id} className="py-5 px-6 w-1/4 align-top border-r border-gray-100 last:border-r-0 sticky top-16 bg-slate-50 z-20">
                     <div className="space-y-4">
-                      {/* Image thumbnail with logo overlay */}
+                      {/* Image thumbnail */}
                       <div className="h-28 w-full rounded-lg overflow-hidden relative border border-gray-100">
                         <img
                           src={college.image}
                           alt={college.name}
                           className="w-full h-full object-cover"
                         />
-                        {college.logo && (
-                          <img
-                            src={college.logo}
-                            alt={`${college.name} logo`}
-                            className="absolute bottom-2 left-2 h-8 w-8 object-cover rounded border border-gray-250 bg-white p-0.5 shadow-xs"
-                          />
-                        )}
                       </div>
                       <div className="space-y-1">
                         <h3 className="font-bold text-sm text-gray-900 line-clamp-2 leading-snug">
