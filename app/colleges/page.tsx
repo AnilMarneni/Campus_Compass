@@ -75,13 +75,15 @@ export default async function CollegesPage({ searchParams }: PageProps) {
     const keywords = search.split(/\s+/).filter(Boolean);
     keywords.forEach((keyword) => {
       andConditions.push({
-        OR: [
-          { name: { contains: keyword, mode: 'insensitive' } },
-          { location: { contains: keyword, mode: 'insensitive' } },
-          { description: { contains: keyword, mode: 'insensitive' } },
-          { courses: { some: { name: { contains: keyword, mode: 'insensitive' } } } },
-          { topRecruiters: { some: { name: { contains: keyword, mode: 'insensitive' } } } },
-        ],
+          OR: [
+            { name: { contains: keyword, mode: 'insensitive' } },
+            { location: { contains: keyword, mode: 'insensitive' } },
+            { description: { contains: keyword, mode: 'insensitive' } },
+            { institutionType: { contains: keyword, mode: 'insensitive' } },
+            { courses: { some: { name: { contains: keyword, mode: 'insensitive' } } } },
+            { topRecruiters: { some: { name: { contains: keyword, mode: 'insensitive' } } } },
+            { areasOfStudy: { some: { name: { contains: keyword, mode: 'insensitive' } } } },
+          ],
       });
     });
   }
@@ -142,6 +144,7 @@ export default async function CollegesPage({ searchParams }: PageProps) {
       take: limit,
       include: {
         courses: true,
+        areasOfStudy: true,
       },
     }),
     prisma.college.count({ where }),
@@ -200,7 +203,7 @@ export default async function CollegesPage({ searchParams }: PageProps) {
               </div>
               <h3 className="font-bold text-lg text-gray-900">No colleges match your filters</h3>
               <p className="text-sm text-gray-500 max-w-sm mt-1 mb-6">
-                Try loosening your parameters, changing location, or clearing search criteria.
+                Try adjusting fees, location, or institution type.
               </p>
               <Link href="/colleges">
                 <Button variant="primary" size="sm">

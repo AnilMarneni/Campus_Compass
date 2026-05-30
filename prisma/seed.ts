@@ -297,35 +297,49 @@ async function main() {
       }
     ];
 
-    await prisma.college.create({
-      data: {
-        name: col.name,
-        location: col.location,
-        description: `Established in ${col.establishedYear}, ${col.name} is a premier ${col.ownershipType.toLowerCase()} institution located in ${col.location.split(',')[0]}. It is widely known for its academic rigor, experienced faculty, and strong corporate connections. The campus is spread over ${col.campusSize || 'a scenic setting'}, offering students a holistic environment for personal and professional growth.`,
-        image: catConfig.image,
-        fees: col.fees,
-        rating: col.rating,
-        placementRate: col.placementRate,
-        averagePackage: col.averagePackage,
-        highestPackage: col.highestPackage,
-        establishedYear: col.establishedYear,
-        ownershipType: col.ownershipType,
-        campusSize: col.campusSize,
-        accreditation: col.accreditation,
-        naacGrade: col.naacGrade,
-        studentCount: col.studentCount,
-        facultyCount: col.facultyCount,
-        topRecruiters: {
-          connect: colRecs
-        },
-        courses: {
-          create: courseCreate
-        },
-        reviews: {
-          create: reviewsCreate
-        }
-      }
-    });
+        await prisma.college.create({
+          data: {
+            name: col.name,
+            location: col.location,
+            description: `Established in ${col.establishedYear}, ${col.name} is a premier ${col.ownershipType.toLowerCase()} institution located in ${col.location.split(',')[0]}. It is widely known for its academic rigor, experienced faculty, and strong corporate connections. The campus is spread over ${col.campusSize || 'a scenic setting'}, offering students a holistic environment for personal and professional growth.`,
+            image: catConfig.image,
+            fees: col.fees,
+            rating: col.rating,
+            placementRate: col.placementRate,
+            averagePackage: col.averagePackage,
+            highestPackage: col.highestPackage,
+            establishedYear: col.establishedYear,
+            ownershipType: col.ownershipType,
+            campusSize: col.campusSize,
+            accreditation: col.accreditation,
+            naacGrade: col.naacGrade,
+            studentCount: col.studentCount,
+            facultyCount: col.facultyCount,
+            logo: 'https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=128&auto=format&fit=crop&q=80',
+            website: `https://www.${col.name.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 15)}.edu.in`,
+            affiliatedUniversity: col.category === 'COMM' || col.category === 'ARTS' ? 'University of Delhi' : 'Autonomous',
+            campusLifeRating: parseFloat((4.0 + (idx % 10) * 0.1).toFixed(1)),
+            institutionOverview: `${col.name} is highly regarded for academic excellence, infrastructure, placements, and campus environment.`,
+            whyChoose: `${col.name} is known for its strong curriculum, dedicated faculty, state-of-the-art facilities, and excellent career opportunities for its students.`,
+            topRecruiters: {
+              connect: colRecs
+            },
+            courses: {
+              create: courseCreate
+            },
+            reviews: {
+              create: reviewsCreate
+            },
+            areasOfStudy: {
+              create: (
+                col.category === 'TECH' ? ["Computer Science", "Mechanical Engineering", "Electrical Engineering", "Civil Engineering"] :
+                col.category === 'MGMT' ? ["Business Management", "Finance", "Marketing", "Human Resources"] :
+                col.category === 'COMM' ? ["Commerce", "Economics", "Finance", "Business Studies"] :
+                ["English Literature", "Physics", "Political Science", "Economics"]
+              ).map(name => ({ name }))
+            }
+          }
+        });
 
     if ((idx + 1) % 25 === 0) {
       console.log(`Progress: Seeded ${idx + 1} colleges...`);

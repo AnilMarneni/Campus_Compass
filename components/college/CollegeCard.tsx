@@ -6,11 +6,15 @@ import { useSession } from 'next-auth/react';
 import { useCompare } from '@/features/compare/CompareContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { formatINR } from '@/lib/utils';
-import { Star, MapPin, Heart, IndianRupee, GitCompare, GraduationCap } from 'lucide-react';
+import { Star, MapPin, Heart, GitCompare } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface CourseShort {
+  id: string;
+  name: string;
+}
+
+interface AreaOfStudyShort {
   id: string;
   name: string;
 }
@@ -24,12 +28,40 @@ interface CollegeCardProps {
     fees: number;
     rating: number;
     placementRate: number;
+    averagePackage?: number | null;
+    highestPackage?: number | null;
     courses?: CourseShort[];
+    areasOfStudy?: AreaOfStudyShort[];
     nirfRank?: number | null;
     nirfCategory?: string | null;
+    logo?: string | null;
+    campusLifeRating?: number | null;
+    institutionType?: string | null;
   };
   initialIsSaved?: boolean;
 }
+
+const getAbbreviation = (name: string) => {
+  const clean = name.toLowerCase().trim();
+  if (clean === 'computer science' || clean === 'computer science & engineering') return 'CSE';
+  if (clean === 'artificial intelligence') return 'AI';
+  if (clean === 'data science') return 'DS';
+  if (clean.includes('mechanical')) return 'Mechanical';
+  if (clean.includes('electrical')) return 'Electrical';
+  if (clean.includes('civil')) return 'Civil';
+  if (clean.includes('chemical')) return 'Chemical';
+  if (clean.includes('aerospace')) return 'Aerospace';
+  if (clean === 'business management' || clean === 'business administration') return 'MBA';
+  if (clean === 'human resources') return 'HR';
+  if (clean === 'finance & economics' || clean === 'finance & accounting' || clean === 'finance') return 'Finance';
+  if (clean === 'commerce') return 'Commerce';
+  if (clean === 'economics' || clean === 'economics & policy') return 'Economics';
+  if (clean === 'english literature') return 'English';
+  if (clean === 'mass media' || clean === 'visual communication') return 'Media';
+  if (clean === 'physics & chemistry') return 'Sciences';
+  
+  return name.split(' ')[0] || name;
+};
 
 export default function CollegeCard({ college, initialIsSaved = false }: CollegeCardProps) {
   const { data: session } = useSession();
@@ -112,9 +144,9 @@ export default function CollegeCard({ college, initialIsSaved = false }: College
   };
 
   return (
-    <Card className="flex flex-col h-full hover:border-indigo-100 transition-all border border-gray-150 rounded-xl overflow-hidden group">
+    <Card className="flex flex-col h-full hover:shadow-md hover:border-indigo-150 transition-all duration-300 border border-gray-150 rounded-2xl overflow-hidden group bg-white">
       {/* College Image Container */}
-      <Link href={`/colleges/${college.id}`} className="relative h-48 w-full overflow-hidden block">
+      <Link href={`/colleges/${college.id}`} className="relative h-44 w-full overflow-hidden block">
         <img
           src={imgSrc}
           alt={college.name}
@@ -123,8 +155,8 @@ export default function CollegeCard({ college, initialIsSaved = false }: College
           loading="lazy"
         />
         {/* Rating Badge */}
-        <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md text-xs font-semibold text-gray-800 flex items-center shadow-xs">
-          <Star className="h-3.5 w-3.5 text-amber-500 fill-amber-500 mr-1" />
+        <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded-md text-[10px] font-bold text-gray-800 flex items-center shadow-xs">
+          <Star className="h-3 w-3 text-amber-500 fill-amber-500 mr-0.5" />
           {college.rating.toFixed(1)}
         </div>
 
@@ -132,72 +164,79 @@ export default function CollegeCard({ college, initialIsSaved = false }: College
         <button
           onClick={handleSaveClick}
           disabled={isSaving}
-          className={`absolute top-3 right-3 p-2 rounded-full shadow-xs transition-all cursor-pointer ${
+          className={`absolute top-3 right-3 p-1.5 rounded-full shadow-xs transition-all cursor-pointer ${
             isSaved
               ? 'bg-red-50 text-red-500 hover:bg-red-100'
               : 'bg-white/90 text-gray-400 hover:bg-white hover:text-gray-600'
           }`}
           aria-label={isSaved ? 'Remove from saved' : 'Save college'}
         >
-          <Heart className={`h-4.5 w-4.5 ${isSaved ? 'fill-red-500 text-red-500' : ''}`} />
+          <Heart className={`h-4 w-4 ${isSaved ? 'fill-red-500 text-red-500' : ''}`} />
         </button>
       </Link>
 
       <CardContent className="flex flex-col flex-grow p-5 space-y-4">
-        {/* Name and Location */}
-        <div className="space-y-1">
-          <Link href={`/colleges/${college.id}`}>
-            <h3 className="font-bold text-base text-gray-900 group-hover:text-indigo-600 transition-colors line-clamp-1 leading-snug">
-              {college.name}
-            </h3>
-          </Link>
-          <div className="flex items-center text-xs text-gray-500">
-            <MapPin className="h-3.5 w-3.5 text-gray-400 mr-1 flex-shrink-0" />
-            <span className="truncate">{college.location}</span>
+        {/* Logo and Name/Location Header */}
+        <div className="flex items-start space-x-3">
+          {college.logo ? (
+            <img
+              src={college.logo}
+              alt={`${college.name} logo`}
+              className="h-10 w-10 object-cover rounded-lg border border-gray-150 bg-white p-0.5 shrink-0 mt-0.5"
+            />
+          ) : (
+            <div className="h-10 w-10 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-650 font-bold shrink-0 mt-0.5 text-sm">
+              {college.name[0]}
+            </div>
+          )}
+          <div className="space-y-1 min-w-0 flex-1">
+            <Link href={`/colleges/${college.id}`}>
+              <h3 className="font-bold text-sm text-gray-900 group-hover:text-indigo-600 transition-colors line-clamp-2 leading-snug">
+                {college.name}
+              </h3>
+            </Link>
+            <div className="flex items-center space-x-1.5 text-xs text-gray-500">
+              <MapPin className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+              <span className="truncate">{college.location.split(',')[0]}</span>
+              {college.institutionType && (
+                <>
+                  <span className="text-gray-300">•</span>
+                  <span className="font-semibold bg-slate-100 text-slate-700 px-1 rounded text-[9px] uppercase tracking-wider shrink-0">{college.institutionType}</span>
+                </>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Primary Stats (Fees, Placements) */}
-        <div className="grid grid-cols-2 gap-3 py-3 border-y border-gray-50/50 text-xs">
+        {/* Quick Stats Grid */}
+        <div className="grid grid-cols-3 gap-1 py-3 border-y border-gray-100 text-[10px] text-gray-500">
           <div className="space-y-0.5">
-            <div className="text-gray-400 flex items-center">
-              <IndianRupee className="h-3 w-3 mr-0.5" />
-              Avg Course Fee
-            </div>
-            <div className="font-semibold text-gray-800">
-              {formatINR(college.fees)} <span className="text-[10px] text-gray-500 font-normal">/year</span>
+            <div className="text-gray-400 font-medium">Campus Life</div>
+            <div className="font-bold text-gray-800 flex items-center text-xs">
+              <Star className="h-3 w-3 text-amber-500 fill-amber-500 mr-0.5 shrink-0" />
+              {college.campusLifeRating ? college.campusLifeRating.toFixed(1) : (college.rating - 0.1).toFixed(1)}
             </div>
           </div>
-          <div className="space-y-0.5 border-l border-gray-100 pl-3">
-            <div className="text-gray-400 flex items-center">
-              <GraduationCap className="h-3.5 w-3.5 mr-0.5 text-gray-400" />
-              Placement Rate
-            </div>
-            <div className="font-semibold text-emerald-600">
+          <div className="space-y-0.5 border-l border-gray-100 pl-2">
+            <div className="text-gray-400 font-medium">Placements</div>
+            <div className="font-bold text-emerald-600 text-xs">
               {college.placementRate > 0 ? `${college.placementRate.toFixed(1)}%` : 'N/A'}
             </div>
           </div>
+          <div className="space-y-0.5 border-l border-gray-100 pl-2">
+            <div className="text-gray-400 font-medium">Avg Package</div>
+            <div className="font-bold text-indigo-600 text-xs">
+              {college.averagePackage ? `₹${college.averagePackage.toFixed(1)} LPA` : 'N/A'}
+            </div>
+          </div>
         </div>
 
-        {/* Courses Offered Preview */}
-        {college.courses && college.courses.length > 0 && (
+        {/* Top Areas of Study */}
+        {college.areasOfStudy && college.areasOfStudy.length > 0 && (
           <div className="space-y-1">
-            <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Courses Offered</div>
-            <div className="flex flex-wrap gap-1">
-              {college.courses.slice(0, 2).map((course) => (
-                <span
-                  key={course.id}
-                  className="inline-flex items-center px-2 py-0.5 rounded bg-gray-50 text-[10px] text-gray-600 border border-gray-100 font-medium"
-                >
-                  {course.name.split(' ').slice(0, 3).join(' ')}
-                  {course.name.split(' ').length > 3 ? '...' : ''}
-                </span>
-              ))}
-              {college.courses.length > 2 && (
-                <span className="inline-flex items-center px-2 py-0.5 rounded bg-indigo-50 text-[10px] text-indigo-600 border border-indigo-100 font-medium">
-                  +{college.courses.length - 2} more
-                </span>
-              )}
+            <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Top Areas of Study</div>
+            <div className="text-xs text-indigo-650 font-semibold truncate leading-relaxed">
+              {college.areasOfStudy.slice(0, 3).map(area => getAbbreviation(area.name)).join(' • ')}
             </div>
           </div>
         )}
@@ -205,7 +244,7 @@ export default function CollegeCard({ college, initialIsSaved = false }: College
         {/* Footer Actions */}
         <div className="flex items-center gap-2 pt-2 mt-auto">
           <Link href={`/colleges/${college.id}`} className="flex-1">
-            <Button variant="outline" size="sm" className="w-full text-xs">
+            <Button variant="outline" size="sm" className="w-full text-xs cursor-pointer font-semibold py-1.5 h-8">
               View Details
             </Button>
           </Link>
@@ -213,7 +252,7 @@ export default function CollegeCard({ college, initialIsSaved = false }: College
             variant={selectedForCompare ? 'primary' : 'outline'}
             size="sm"
             onClick={handleCompareClick}
-            className={`px-3 ${selectedForCompare ? 'bg-indigo-50 hover:bg-indigo-100 border-indigo-200 text-indigo-700' : 'text-gray-500'}`}
+            className={`px-3 h-8 cursor-pointer ${selectedForCompare ? 'bg-indigo-50 hover:bg-indigo-100 border-indigo-200 text-indigo-700' : 'text-gray-500'}`}
             title="Compare College"
           >
             <GitCompare className={`h-4 w-4 ${selectedForCompare ? 'stroke-indigo-700' : ''}`} />

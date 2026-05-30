@@ -45,8 +45,10 @@ export async function GET(request: NextRequest) {
             { name: { contains: keyword, mode: 'insensitive' } },
             { location: { contains: keyword, mode: 'insensitive' } },
             { description: { contains: keyword, mode: 'insensitive' } },
+            { institutionType: { contains: keyword, mode: 'insensitive' } },
             { courses: { some: { name: { contains: keyword, mode: 'insensitive' } } } },
             { topRecruiters: { some: { name: { contains: keyword, mode: 'insensitive' } } } },
+            { areasOfStudy: { some: { name: { contains: keyword, mode: 'insensitive' } } } },
           ],
         });
       });
@@ -114,6 +116,7 @@ export async function GET(request: NextRequest) {
         include: {
           courses: true,
           reviews: true,
+          areasOfStudy: true,
         },
       }),
       prisma.college.count({ where }),

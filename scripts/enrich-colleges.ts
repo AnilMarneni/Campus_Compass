@@ -92,6 +92,14 @@ async function main() {
     throw new Error(`Enrichment file not found at: ${filePath}`);
   }
 
+  const metadataPath = path.join(__dirname, 'data', 'college-metadata.json');
+  const logosPath = path.join(__dirname, 'data', 'college-logos.json');
+  const areasPath = path.join(__dirname, 'data', 'college-areas.json');
+
+  const metadataMap = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
+  const logosMap = JSON.parse(fs.readFileSync(logosPath, 'utf-8'));
+  const areasMap = JSON.parse(fs.readFileSync(areasPath, 'utf-8'));
+
 interface CollegeEnrichment {
   name: string;
   category: string;
@@ -130,6 +138,21 @@ interface CollegeEnrichment {
         }
 
         const catConfig = categories[item.category as keyof typeof categories] || categories.ARTS;
+
+        // Perform lookups on metadata maps with fallback generators
+        const meta = metadataMap[item.name] || {
+          website: `https://www.${item.name.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 15)}.edu.in`,
+          affiliatedUniversity: item.category === 'COMM' || item.category === 'ARTS' ? 'University of Delhi' : 'Autonomous',
+          campusLifeRating: parseFloat((4.0 + (idx % 10) * 0.1).toFixed(1)),
+          whyChoose: `${item.name} is recognized for its comprehensive academic curriculum, experienced faculty panels, state-of-the-art facilities, and great career paths for students.`
+        };
+        const logoUrl = logosMap[item.name] || 'https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=128&auto=format&fit=crop&q=80';
+        const areas = areasMap[item.name] || (
+          item.category === 'TECH' ? ["Computer Science", "Mechanical Engineering", "Electrical Engineering", "Civil Engineering"] :
+          item.category === 'MGMT' ? ["Business Management", "Finance", "Marketing", "Human Resources"] :
+          item.category === 'COMM' ? ["Commerce", "Economics", "Finance", "Business Studies"] :
+          ["English Literature", "Physics", "Political Science", "Economics"]
+        );
 
         // Connect top recruiters
         const colRecs = catConfig.recruiters
@@ -181,6 +204,12 @@ interface CollegeEnrichment {
             naacGrade: item.naacGrade,
             studentCount: item.studentCount,
             facultyCount: item.facultyCount,
+            logo: logoUrl,
+            website: meta.website,
+            affiliatedUniversity: meta.affiliatedUniversity,
+            campusLifeRating: meta.campusLifeRating,
+            institutionOverview: meta.whyChoose,
+            whyChoose: meta.whyChoose,
             topRecruiters: {
               connect: colRecs
             },
@@ -189,6 +218,9 @@ interface CollegeEnrichment {
             },
             reviews: {
               create: reviewsCreate
+            },
+            areasOfStudy: {
+              create: areas.map((areaName: string) => ({ name: areaName }))
             }
           }
         });

@@ -42,6 +42,13 @@ model College {
   institutionType String?
   placementYear   Int?
   placementSource String?
+  logo            String?
+  website         String?
+  affiliatedUniversity String?
+  campusLifeRating Float?
+  institutionOverview String?
+  whyChoose       String?
+  areasOfStudy    AreaOfStudy[]
   courses         Course[]
   reviews         Review[]
   savedBy         SavedCollege[]
@@ -97,4 +104,13 @@ model SavedCollege {
 
   @@unique([userId, collegeId])
   @@index([userId])
+}
+
+model AreaOfStudy {
+  id        String   @id @default(cuid())
+  name      String
+  collegeId String
+  college   College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@index([collegeId])
 }

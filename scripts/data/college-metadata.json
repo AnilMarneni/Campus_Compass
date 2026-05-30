@@ -1,0 +1,242 @@
+{
+  "Indian Institute of Technology, Madras (IIT Madras)": {
+    "website": "https://www.iitm.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.8,
+    "whyChoose": "IIT Madras is globally renowned for its exceptional research ecosystem, state-of-the-art incubation cell (IITM Research Park), and consistently holding the #1 position in NIRF rankings for national excellence."
+  },
+  "Indian Institute of Technology, Delhi (IIT Delhi)": {
+    "website": "https://home.iitd.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.7,
+    "whyChoose": "Located in the national capital, IIT Delhi is celebrated for its thriving startup incubation ecosystem, elite scientific research laboratories, and top-tier placement record with leading tech conglomerates."
+  },
+  "Indian Institute of Technology, Bombay (IIT Bombay)": {
+    "website": "https://www.iitb.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.9,
+    "whyChoose": "Situated in India's financial hub, IIT Bombay offers an unparalleled student lifestyle (home to Mood Indigo), stellar entrepreneurship resources via SINE, and outstanding packages from global tech giants."
+  },
+  "Indian Institute of Technology, Kanpur (IIT Kanpur)": {
+    "website": "https://www.iitk.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.8,
+    "whyChoose": "IIT Kanpur stands out for its legendary academic rigor, a unique student-run airstrip, a top-tier computer science research department, and a highly supportive alumni network."
+  },
+  "Indian Institute of Technology, Kharagpur (IIT Kharagpur)": {
+    "website": "https://www.iitkgp.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.7,
+    "whyChoose": "As the oldest and largest IIT campus, Kharagpur is famous for its massive green campus, specialized departments (like Law and Oceanography), and a legendary legacy of corporate leadership."
+  },
+  "Indian Institute of Technology, Roorkee (IIT Roorkee)": {
+    "website": "https://www.iitr.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.6,
+    "whyChoose": "Dating back to 1847, IIT Roorkee possesses a beautiful heritage campus, strong programs in civil and structural engineering, and exceptional technical infrastructure."
+  },
+  "Indian Institute of Technology, Guwahati (IIT Guwahati)": {
+    "website": "https://www.iitg.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.5,
+    "whyChoose": "IIT Guwahati features one of the most picturesque campuses in Asia, built along the Brahmaputra River, and is highly regarded for its biotechnology, design, and nanotechnology research."
+  },
+  "Indian Institute of Technology, Hyderabad (IIT Hyderabad)": {
+    "website": "https://www.iith.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.6,
+    "whyChoose": "Known for its strong collaboration with Japanese universities, IIT Hyderabad boasts cutting-edge research in smart mobility, clean energy, and advanced materials."
+  },
+  "National Institute of Technology, Trichy (NIT Trichy)": {
+    "website": "https://www.nitt.edu",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.5,
+    "whyChoose": "NIT Trichy is consistently ranked as the #1 National Institute of Technology in India, offering stellar placement rates, highly competitive student clubs, and excellent infrastructure."
+  },
+  "Indian Institute of Technology, BHU (IIT BHU)": {
+    "website": "https://www.iitbhu.ac.in",
+    "affiliatedUniversity": "Banaras Hindu University",
+    "campusLifeRating": 4.4,
+    "whyChoose": "IIT BHU combines a rich historical legacy in Varanasi with modern engineering excellence, offering unique interdisciplinary research courses and a highly active campus culture."
+  },
+  "National Institute of Technology, Surathkal (NIT Surathkal)": {
+    "website": "https://www.nitk.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.5,
+    "whyChoose": "NIT Surathkal is uniquely situated next to a private beach, offering a scenic coastal student life alongside top-tier laboratories and extremely high recruitment percentages in software and core sectors."
+  },
+  "National Institute of Technology, Warangal (NIT Warangal)": {
+    "website": "https://www.nitw.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.4,
+    "whyChoose": "NIT Warangal holds a prestigious placement record, outstanding computer engineering labs, and a lively student community with highly anticipated annual technical fests."
+  },
+  "Indian Institute of Technology, Indore (IIT Indore)": {
+    "website": "https://www.iiti.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.3,
+    "whyChoose": "IIT Indore is recognized for its high research publication rates, modern research facilities, and partnerships with European labs in astrophysics and clean tech."
+  },
+  "Indian Institute of Technology, Gandhinagar (IIT Gandhinagar)": {
+    "website": "https://www.iitgn.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.4,
+    "whyChoose": "IIT Gandhinagar is distinguished by its unique 5-week Foundation Programme, a non-hierarchical learning structure, and global study-abroad student exchange options."
+  },
+  "Indian Institute of Technology, Patna (IIT Patna)": {
+    "website": "https://www.iitp.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.2,
+    "whyChoose": "IIT Patna provides state-of-the-art incubation platforms for IoT and hardware startups, supported by highly qualified faculty and expanding campus amenities."
+  },
+  "Indian Institute of Technology, Ropar (IIT Ropar)": {
+    "website": "https://www.iitrpr.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.1,
+    "whyChoose": "IIT Ropar features modern green buildings, expanding labs in robotics and computer intelligence, and rising corporate recruiters presence year-on-year."
+  },
+  "Indian Institute of Technology, Mandi (IIT Mandi)": {
+    "website": "https://www.iitmandi.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.4,
+    "whyChoose": "Nestled in the scenic Himalayas, IIT Mandi offers a unique project-oriented curriculum, high research focus in bioinformatics and eco-friendly technology."
+  },
+  "Indian Institute of Technology, Jodhpur (IIT Jodhpur)": {
+    "website": "https://www.iitj.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.2,
+    "whyChoose": "IIT Jodhpur focuses heavily on emerging futuristic disciplines like Cognitive Science, Artificial Intelligence, and Smart Infrastructure."
+  },
+  "National Institute of Technology, Rourkela (NIT Rourkela)": {
+    "website": "https://www.nitrkl.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.3,
+    "whyChoose": "Boasting one of the largest campus areas in eastern India, NIT Rourkela offers highly specialized material science labs, top sports facilities, and strong placements."
+  },
+  "National Institute of Technology, Calicut (NIT Calicut)": {
+    "website": "https://www.nitc.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.2,
+    "whyChoose": "NIT Calicut provides highly regarded engineering programs, featuring a sprawling green campus, active technical clubs, and excellent placements in southern tech hubs."
+  },
+  "Birla Institute of Technology and Science, Pilani (BITS Pilani)": {
+    "website": "https://www.bits-pilani.ac.in",
+    "affiliatedUniversity": "Deemed University",
+    "campusLifeRating": 4.8,
+    "whyChoose": "BITS Pilani stands out for its strict 'Zero Attendance Policy', a highly robust Practice School (PS-II) offering guaranteed 6-month industry internships, and a legendary entrepreneurial culture."
+  },
+  "Vellore Institute of Technology (VIT)": {
+    "website": "https://vit.ac.in",
+    "affiliatedUniversity": "Deemed University",
+    "campusLifeRating": 4.5,
+    "whyChoose": "VIT is celebrated for its highly flexible Fully Flexible Credit System (FFCS), world-class infrastructure, vast international linkages, and high volumes of tech recruitments."
+  },
+  "International Institute of Information Technology (IIIT Hyderabad)": {
+    "website": "https://www.iiit.ac.in",
+    "affiliatedUniversity": "Deemed University",
+    "campusLifeRating": 4.6,
+    "whyChoose": "IIIT Hyderabad is a premier computer science institution, famous for its world-class research centers (CVIT, LTRC), record-breaking package averages, and strong coding culture."
+  },
+  "International Institute of Information Technology (IIIT Bangalore)": {
+    "website": "https://www.iiitb.ac.in",
+    "affiliatedUniversity": "Deemed University",
+    "campusLifeRating": 4.4,
+    "whyChoose": "Located in the heart of Electronic City in Bengaluru, IIIT Bangalore offers unparalleled industry integration, excellent research labs, and an exceptional record of software industry placements."
+  },
+  "Indian Institute of Information Technology (IIIT Allahabad)": {
+    "website": "https://www.iiita.ac.in",
+    "affiliatedUniversity": "Institute of National Importance",
+    "campusLifeRating": 4.3,
+    "whyChoose": "IIIT Allahabad is renowned for its highly specialized informatics curriculum, competitive programming culture, and stellar placements in global product companies."
+  },
+  "Indian Institute of Management, Ahmedabad (IIM Ahmedabad)": {
+    "website": "https://www.iima.ac.in",
+    "affiliatedUniversity": "Autonomous (IIM Council)",
+    "campusLifeRating": 4.8,
+    "whyChoose": "IIM Ahmedabad is widely considered the top management institute in India, famous for its rigorous case-study methodology, iconic Louis Kahn campus architecture, and elite global placements."
+  },
+  "Indian Institute of Management, Bangalore (IIM Bangalore)": {
+    "website": "https://www.iimb.ac.in",
+    "affiliatedUniversity": "Autonomous (IIM Council)",
+    "campusLifeRating": 4.7,
+    "whyChoose": "IIM Bangalore features an outstanding location in India's tech capital, strong consulting and startup programs, and a beautiful green campus designed by B.V. Doshi."
+  },
+  "Indian Institute of Management, Calcutta (IIM Calcutta)": {
+    "website": "https://www.iimcal.ac.in",
+    "affiliatedUniversity": "Autonomous (IIM Council)",
+    "campusLifeRating": 4.7,
+    "whyChoose": "Known as the finance capital among IIMs, IIM Calcutta offers a beautiful campus with seven lakes and unmatched quantitative finance, economics, and analytics programs."
+  },
+  "Indian Institute of Management, Lucknow (IIM Lucknow)": {
+    "website": "https://www.iiml.ac.in",
+    "affiliatedUniversity": "Autonomous (IIM Council)",
+    "campusLifeRating": 4.6,
+    "whyChoose": "IIM Lucknow provides a highly rigorous academic environment, specializing in agribusiness, marketing, and leadership programs with top-tier corporate linkages."
+  },
+  "Indian Institute of Management, Kozhikode (IIM Kozhikode)": {
+    "website": "https://www.iimk.ac.in",
+    "affiliatedUniversity": "Autonomous (IIM Council)",
+    "campusLifeRating": 4.6,
+    "whyChoose": "Situated in scenic hillocks, IIM Kozhikode is a pioneer in diversity and gender balance, hosting India's first museum of business history and strong strategy roles placements."
+  },
+  "Indian Institute of Management, Indore (IIM Indore)": {
+    "website": "https://www.iimidr.ac.in",
+    "affiliatedUniversity": "Autonomous (IIM Council)",
+    "campusLifeRating": 4.5,
+    "whyChoose": "IIM Indore features one of the largest batch sizes among older IIMs, offering high exposure, unique five-year Integrated Programme in Management (IPM), and strong consulting partnerships."
+  },
+  "XLRI — Xavier School of Management": {
+    "website": "https://www.xlri.ac.in",
+    "affiliatedUniversity": "Autonomous",
+    "campusLifeRating": 4.7,
+    "whyChoose": "As India's oldest business school, XLRI is the undisputed leader in Human Resource Management (HRM) studies in Asia, offering deep values-based leadership training."
+  },
+  "Faculty of Management Studies, Delhi University (FMS Delhi)": {
+    "website": "http://fms.edu",
+    "affiliatedUniversity": "University of Delhi",
+    "campusLifeRating": 4.2,
+    "whyChoose": "Known as the 'Red Building of Dreams', FMS Delhi is famous for having the highest Return on Investment (ROI) in management education in India, combined with elite placements."
+  },
+  "Shri Ram College of Commerce (SRCC)": {
+    "website": "https://www.srcc.edu",
+    "affiliatedUniversity": "University of Delhi",
+    "campusLifeRating": 4.5,
+    "whyChoose": "SRCC is the absolute pinnacle of commerce education in India, drawing the country's top scorers, offering an elite peer group, and unmatched corporate recruitment drives."
+  },
+  "Lady Shri Ram College for Women (LSR)": {
+    "website": "https://lsr.edu.in",
+    "affiliatedUniversity": "University of Delhi",
+    "campusLifeRating": 4.6,
+    "whyChoose": "LSR is a premier institution for liberal arts and commerce, celebrated for fostering critical thinking, women leadership, and providing excellent placements in consulting."
+  },
+  "Hindu College": {
+    "website": "https://hinducollege.ac.in",
+    "affiliatedUniversity": "University of Delhi",
+    "campusLifeRating": 4.6,
+    "whyChoose": "With a rich heritage in North Campus, Hindu College provides an outstanding academic and political environment, active student parliament, and high placements in analytics."
+  },
+  "Miranda House": {
+    "website": "https://www.mirandahouse.ac.in",
+    "affiliatedUniversity": "University of Delhi",
+    "campusLifeRating": 4.6,
+    "whyChoose": "Miranda House has consistently held the #1 spot in NIRF College category for years, offering top-tier science and humanities research labs and excellent academic faculty."
+  },
+  "St. Stephen's College": {
+    "website": "https://www.ststephens.edu",
+    "affiliatedUniversity": "University of Delhi",
+    "campusLifeRating": 4.7,
+    "whyChoose": "St. Stephen's College is famous for its unique residential culture, tutorial system, elite list of alumni in policymaking, and high-quality liberal arts education."
+  },
+  "Loyola College": {
+    "website": "https://www.loyolacollege.edu",
+    "affiliatedUniversity": "University of Madras",
+    "campusLifeRating": 4.5,
+    "whyChoose": "Loyola College is a prestigious autonomous institution in Chennai, known for its strong academic rigor, social outreach programs, and excellent chemistry and economics research."
+  },
+  "St. Xavier's College, Mumbai": {
+    "website": "https://xaviers.edu",
+    "affiliatedUniversity": "University of Mumbai",
+    "campusLifeRating": 4.6,
+    "whyChoose": "Housed in a gorgeous Gothic heritage campus in South Mumbai, St. Xavier's offers a legendary liberal arts and media culture (Malhar festival) and strong corporate ties."
+  }
+}

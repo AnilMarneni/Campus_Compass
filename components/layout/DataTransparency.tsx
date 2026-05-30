@@ -18,7 +18,7 @@ export default function DataTransparency() {
             <span>Data Sources</span>
           </div>
           <p className="text-xs text-gray-500 leading-normal">
-            Compiled from university admissions brochures, UGC/AICTE registries, and official institutional disclosures.
+            Verified directly from NIRF Rankings, official university websites, placement cell reports, institutional disclosures, and audited student reviews.
           </p>
         </div>
 

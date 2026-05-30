@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useCompare } from '@/features/compare/CompareContext';
 import { Button } from '@/components/ui/button';
 import { formatINR } from '@/lib/utils';
 import { Star, MapPin, Heart, GitCompare, GraduationCap, IndianRupee, Share2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { trackCollegeView, trackSaveCollege } from '@/lib/analytics';
 
 interface CollegeHeroProps {
   college: {
@@ -23,6 +24,10 @@ interface CollegeHeroProps {
     nirfCategory?: string | null;
     nirfYear?: number | null;
     institutionType?: string | null;
+    logo?: string | null;
+    website?: string | null;
+    affiliatedUniversity?: string | null;
+    campusLifeRating?: number | null;
   };
   initialIsSaved?: boolean;
 }
@@ -35,6 +40,11 @@ export default function CollegeHero({ college, initialIsSaved = false }: College
   const [imgSrc, setImgSrc] = useState(college.image);
 
   const selectedForCompare = isInCompare(college.id);
+
+  // Track page view on mount
+  useEffect(() => {
+    trackCollegeView(college.id, college.name);
+  }, [college.id, college.name]);
 
   const handleCompareClick = () => {
     if (selectedForCompare) {
@@ -77,6 +87,7 @@ export default function CollegeHero({ college, initialIsSaved = false }: College
           throw new Error(data.message || 'Failed to remove saved college');
         }
         toast.success(`Removed ${college.name} from saved list`);
+        trackSaveCollege(college.id, 'unsave');
       } else {
         const res = await fetch('/api/saved', {
           method: 'POST',
@@ -88,6 +99,7 @@ export default function CollegeHero({ college, initialIsSaved = false }: College
           throw new Error(data.message || 'Failed to save college');
         }
         toast.success(`Saved ${college.name} to favorites`);
+        trackSaveCollege(college.id, 'save');
       }
     } catch (err) {
       setIsSaved(previousState);
@@ -124,12 +136,16 @@ export default function CollegeHero({ college, initialIsSaved = false }: College
           </div>
 
           {/* Details & Info */}
-          <div className="flex-grow space-y-4">
+          <div className="flex-grow space-y-4 w-full">
             <div className="flex flex-wrap gap-2 items-center">
-
               {college.institutionType && (
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-slate-100 text-xs font-semibold text-slate-700 border border-slate-200">
                   {college.institutionType}
+                </span>
+              )}
+              {college.affiliatedUniversity && (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-indigo-50 text-xs font-semibold text-indigo-700 border border-indigo-100">
+                  {college.affiliatedUniversity}
                 </span>
               )}
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-emerald-50 text-xs font-semibold text-emerald-700">
@@ -137,22 +153,35 @@ export default function CollegeHero({ college, initialIsSaved = false }: College
               </span>
             </div>
 
-            <div className="space-y-2">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 leading-tight">
-                {college.name}
-              </h1>
-              <div className="flex items-center text-sm text-gray-500">
-                <MapPin className="h-4.5 w-4.5 text-gray-400 mr-1 flex-shrink-0" />
-                <span>{college.location}</span>
+            <div className="flex items-start space-x-4">
+              {college.logo ? (
+                <img
+                  src={college.logo}
+                  alt={`${college.name} logo`}
+                  className="h-16 w-16 object-cover rounded-xl border border-gray-200 bg-white p-1 shrink-0 shadow-xs"
+                />
+              ) : (
+                <div className="h-16 w-16 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-650 font-bold shrink-0 shadow-xs text-xl">
+                  {college.name[0]}
+                </div>
+              )}
+              <div className="space-y-1">
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 leading-tight">
+                  {college.name}
+                </h1>
+                <div className="flex items-center text-sm text-gray-500">
+                  <MapPin className="h-4.5 w-4.5 text-gray-400 mr-1 flex-shrink-0" />
+                  <span>{college.location}</span>
+                </div>
               </div>
             </div>
 
-            <p className="text-sm text-gray-600 max-w-2xl leading-relaxed">
+            <p className="text-sm text-gray-650 max-w-2xl leading-relaxed">
               {college.description}
             </p>
 
             {/* Quick Stat Blocks */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2 max-w-xl">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2 max-w-2xl">
               <div className="bg-slate-50/50 border border-slate-100 p-3 rounded-lg space-y-0.5">
                 <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider flex items-center">
                   <IndianRupee className="h-3 w-3 mr-0.5" />
@@ -173,13 +202,23 @@ export default function CollegeHero({ college, initialIsSaved = false }: College
                 </div>
               </div>
 
-              <div className="bg-slate-50/50 border border-slate-100 p-3 rounded-lg col-span-2 sm:col-span-1 space-y-0.5">
+              <div className="bg-slate-50/50 border border-slate-100 p-3 rounded-lg space-y-0.5">
                 <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider flex items-center">
                   <Star className="h-3.5 w-3.5 mr-0.5 text-amber-500" />
                   User Rating
                 </div>
                 <div className="text-base font-bold text-gray-800">
                   {college.rating.toFixed(1)} <span className="text-[10px] text-gray-500 font-normal">/ 5.0</span>
+                </div>
+              </div>
+
+              <div className="bg-slate-50/50 border border-slate-100 p-3 rounded-lg space-y-0.5">
+                <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider flex items-center">
+                  <Star className="h-3.5 w-3.5 mr-0.5 text-indigo-500" />
+                  Campus Life
+                </div>
+                <div className="text-base font-bold text-indigo-650">
+                  {college.campusLifeRating ? college.campusLifeRating.toFixed(1) : (college.rating - 0.1).toFixed(1)} <span className="text-[10px] text-gray-500 font-normal">/ 5.0</span>
                 </div>
               </div>
             </div>

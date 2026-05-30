@@ -1,0 +1,280 @@
+{
+  "Indian Institute of Technology, Madras (IIT Madras)": [
+    "Computer Science",
+    "Artificial Intelligence",
+    "Data Science",
+    "Mechanical Engineering",
+    "Electrical Engineering",
+    "Civil Engineering"
+  ],
+  "Indian Institute of Technology, Delhi (IIT Delhi)": [
+    "Computer Science",
+    "Electrical Engineering",
+    "Mechanical Engineering",
+    "Data Science",
+    "Chemical Engineering",
+    "Design Studies"
+  ],
+  "Indian Institute of Technology, Bombay (IIT Bombay)": [
+    "Computer Science",
+    "Electrical Engineering",
+    "Mechanical Engineering",
+    "Aerospace Engineering",
+    "Industrial Design",
+    "Finance & Economics"
+  ],
+  "Indian Institute of Technology, Kanpur (IIT Kanpur)": [
+    "Computer Science",
+    "Aerospace Engineering",
+    "Electrical Engineering",
+    "Materials Science",
+    "Economics & Mathematics"
+  ],
+  "Indian Institute of Technology, Kharagpur (IIT Kharagpur)": [
+    "Computer Science",
+    "Electronics Engineering",
+    "Ocean Engineering",
+    "Agricultural Science",
+    "Business Management",
+    "Legal Studies"
+  ],
+  "Indian Institute of Technology, Roorkee (IIT Roorkee)": [
+    "Computer Science",
+    "Civil Engineering",
+    "Architecture",
+    "Electrical Engineering",
+    "Hydro & Renewable Energy"
+  ],
+  "Indian Institute of Technology, Guwahati (IIT Guwahati)": [
+    "Computer Science",
+    "Biosciences & Engineering",
+    "Chemical Engineering",
+    "Design Studies",
+    "Physics & Materials"
+  ],
+  "Indian Institute of Technology, Hyderabad (IIT Hyderabad)": [
+    "Computer Science",
+    "Artificial Intelligence",
+    "Smart Mobility",
+    "Biomedical Engineering",
+    "Materials & Design"
+  ],
+  "National Institute of Technology, Trichy (NIT Trichy)": [
+    "Computer Science",
+    "Mechanical Engineering",
+    "Electronics & Electrical",
+    "Chemical Engineering",
+    "Production Systems"
+  ],
+  "Indian Institute of Technology, BHU (IIT BHU)": [
+    "Computer Science",
+    "Ceramic Engineering",
+    "Metallurgical Engineering",
+    "Pharmaceutical Sciences",
+    "Electronics Engineering"
+  ],
+  "National Institute of Technology, Surathkal (NIT Surathkal)": [
+    "Computer Science",
+    "Information Technology",
+    "Mining Engineering",
+    "Marine Structures",
+    "Chemical Engineering"
+  ],
+  "National Institute of Technology, Warangal (NIT Warangal)": [
+    "Computer Science",
+    "Electronics & Comm",
+    "Power Systems",
+    "Chemical Engineering",
+    "Biotechnology"
+  ],
+  "Indian Institute of Technology, Indore (IIT Indore)": [
+    "Computer Science",
+    "Electrical Engineering",
+    "Space Sciences",
+    "Bio-Medical Tech",
+    "Humanities & Arts"
+  ],
+  "Indian Institute of Technology, Gandhinagar (IIT Gandhinagar)": [
+    "Computer Science",
+    "Cognitive Science",
+    "Earth System Science",
+    "Chemical Engineering",
+    "Humanities"
+  ],
+  "Indian Institute of Technology, Patna (IIT Patna)": [
+    "Computer Science",
+    "Electrical Engineering",
+    "Mechanical Engineering",
+    "Mechatronics",
+    "Business Management"
+  ],
+  "Indian Institute of Technology, Ropar (IIT Ropar)": [
+    "Computer Science",
+    "Electrical Engineering",
+    "Mechanical Engineering",
+    "Artificial Intelligence"
+  ],
+  "Indian Institute of Technology, Mandi (IIT Mandi)": [
+    "Computer Science",
+    "Bioengineering",
+    "Materials Science",
+    "Energy Engineering"
+  ],
+  "Indian Institute of Technology, Jodhpur (IIT Jodhpur)": [
+    "Computer Science",
+    "Artificial Intelligence",
+    "Data Science",
+    "Biomedical Engineering",
+    "Materials Science"
+  ],
+  "National Institute of Technology, Rourkela (NIT Rourkela)": [
+    "Computer Science",
+    "Metallurgy & Materials",
+    "Mining Engineering",
+    "Ceramic Sciences",
+    "Business Management"
+  ],
+  "National Institute of Technology, Calicut (NIT Calicut)": [
+    "Computer Science",
+    "Electrical Engineering",
+    "Architecture & Planning",
+    "Mechanical Engineering",
+    "Management Studies"
+  ],
+  "Birla Institute of Technology and Science, Pilani (BITS Pilani)": [
+    "Computer Science",
+    "Electrical Engineering",
+    "Chemical Engineering",
+    "Pharmacy",
+    "Economics & Finance",
+    "Biological Sciences"
+  ],
+  "Vellore Institute of Technology (VIT)": [
+    "Computer Science",
+    "Information Technology",
+    "Electronics & Comm",
+    "Biotechnology",
+    "Business Administration"
+  ],
+  "International Institute of Information Technology (IIIT Hyderabad)": [
+    "Computer Science",
+    "Electronics & Comm",
+    "Computational Linguistics",
+    "Robotics & AI",
+    "Bio-Informatics"
+  ],
+  "International Institute of Information Technology (IIIT Bangalore)": [
+    "Computer Science",
+    "Data Science",
+    "Electronics & Comm",
+    "Information Technology"
+  ],
+  "Indian Institute of Information Technology (IIIT Allahabad)": [
+    "Information Technology",
+    "Electronics & Comm",
+    "Bio-Informatics",
+    "Software Engineering",
+    "Management"
+  ],
+  "Indian Institute of Management, Ahmedabad (IIM Ahmedabad)": [
+    "Business Management",
+    "Finance",
+    "Marketing",
+    "Agribusiness",
+    "Public Systems"
+  ],
+  "Indian Institute of Management, Bangalore (IIM Bangalore)": [
+    "Business Management",
+    "Public Policy",
+    "Finance",
+    "Marketing",
+    "Business Analytics"
+  ],
+  "Indian Institute of Management, Calcutta (IIM Calcutta)": [
+    "Business Management",
+    "Quantitative Finance",
+    "Operations Management",
+    "Economics",
+    "Human Resources"
+  ],
+  "Indian Institute of Management, Lucknow (IIM Lucknow)": [
+    "Business Management",
+    "Agribusiness",
+    "Human Resources",
+    "Finance & Accounting",
+    "Sustainable Management"
+  ],
+  "Indian Institute of Management, Kozhikode (IIM Kozhikode)": [
+    "Business Management",
+    "Finance",
+    "Marketing",
+    "Strategy & Leadership",
+    "Liberal Studies"
+  ],
+  "Indian Institute of Management, Indore (IIM Indore)": [
+    "Business Management",
+    "Finance",
+    "Marketing",
+    "Human Resources",
+    "Operations & Systems"
+  ],
+  "XLRI — Xavier School of Management": [
+    "Human Resources",
+    "Business Management",
+    "General Management",
+    "Finance",
+    "Marketing"
+  ],
+  "Faculty of Management Studies, Delhi University (FMS Delhi)": [
+    "Business Management",
+    "Finance & Economics",
+    "Marketing & Strategy",
+    "Human Resources"
+  ],
+  "Shri Ram College of Commerce (SRCC)": [
+    "Commerce",
+    "Economics",
+    "Finance & Accountancy",
+    "Business Studies"
+  ],
+  "Lady Shri Ram College for Women (LSR)": [
+    "Commerce",
+    "Economics",
+    "English Literature",
+    "Social Sciences",
+    "Mathematics"
+  ],
+  "Hindu College": [
+    "English Literature",
+    "Physics & Chemistry",
+    "Commerce",
+    "Economics & Policy",
+    "History"
+  ],
+  "Miranda House": [
+    "English Literature",
+    "Physics & Chemistry",
+    "Geography & Botany",
+    "Social Sciences"
+  ],
+  "St. Stephen's College": [
+    "English Literature",
+    "History & Philosophy",
+    "Physics & Chemistry",
+    "Economics & Policy"
+  ],
+  "Loyola College": [
+    "Commerce",
+    "Economics",
+    "Visual Communication",
+    "Chemistry & Physics",
+    "Social Work"
+  ],
+  "St. Xavier's College, Mumbai": [
+    "Mass Media",
+    "Commerce",
+    "Life Sciences",
+    "Management Studies",
+    "Psychology & Literature"
+  ]
+}

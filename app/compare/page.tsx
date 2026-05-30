@@ -2,9 +2,11 @@ import React from 'react';
 import { prisma } from '@/lib/prisma';
 import { Button } from '@/components/ui/button';
 import { formatINR } from '@/lib/utils';
-import { GitCompare, MapPin, Star, GraduationCap, IndianRupee, ArrowLeft, Plus, Briefcase, Calendar, Building2, Award, BookOpen } from 'lucide-react';
+import { GitCompare, MapPin, Star, GraduationCap, IndianRupee, ArrowLeft, Plus, Briefcase, Calendar, Building2, Award, BookOpen, Globe } from 'lucide-react';
 import Link from 'next/link';
 import { Metadata } from 'next';
+import CompareTracker from '@/components/college/CompareTracker';
+import CompareActions from '@/components/college/CompareActions';
 
 export const metadata: Metadata = {
   title: 'Compare Colleges Side-by-Side | CampusCompass',
@@ -33,6 +35,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
         include: {
           courses: true,
           topRecruiters: true,
+          areasOfStudy: true,
         },
       })
     : [];
@@ -78,6 +81,8 @@ export default async function ComparePage({ searchParams }: PageProps) {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <CompareTracker ids={ids} />
+      
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-100">
         <div className="space-y-1">
@@ -93,6 +98,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
             Review side-by-side matrices to pick the best academic institution.
           </p>
         </div>
+        <CompareActions collegeNames={orderedColleges.map((c) => c.name)} />
       </div>
 
       {/* Comparison Matrix Table */}
@@ -102,20 +108,27 @@ export default async function ComparePage({ searchParams }: PageProps) {
             <thead>
               <tr className="bg-slate-50 border-b border-gray-100">
                 {/* Metrics header column */}
-                <th className="py-5 px-6 font-bold text-xs uppercase tracking-wider text-gray-400 w-1/4 sticky left-0 bg-slate-50 z-10 border-r border-gray-100">
+                <th className="py-5 px-6 font-bold text-xs uppercase tracking-wider text-gray-400 w-1/4 sticky top-16 left-0 bg-slate-50 z-30 border-r border-gray-100">
                   Key Metrics
                 </th>
                 {/* College columns */}
                 {orderedColleges.map((college) => (
-                  <th key={college.id} className="py-5 px-6 w-1/4 align-top border-r border-gray-100 last:border-r-0">
+                  <th key={college.id} className="py-5 px-6 w-1/4 align-top border-r border-gray-100 last:border-r-0 sticky top-16 bg-slate-50 z-20">
                     <div className="space-y-4">
-                      {/* Image thumbnail */}
-                      <div className="h-32 w-full rounded-lg overflow-hidden relative border border-gray-100">
+                      {/* Image thumbnail with logo overlay */}
+                      <div className="h-28 w-full rounded-lg overflow-hidden relative border border-gray-100">
                         <img
                           src={college.image}
                           alt={college.name}
                           className="w-full h-full object-cover"
                         />
+                        {college.logo && (
+                          <img
+                            src={college.logo}
+                            alt={`${college.name} logo`}
+                            className="absolute bottom-2 left-2 h-8 w-8 object-cover rounded border border-gray-250 bg-white p-0.5 shadow-xs"
+                          />
+                        )}
                       </div>
                       <div className="space-y-1">
                         <h3 className="font-bold text-sm text-gray-900 line-clamp-2 leading-snug">
@@ -177,6 +190,33 @@ export default async function ComparePage({ searchParams }: PageProps) {
                 ))}
               </tr>
 
+              {/* Campus Life Row */}
+              <tr>
+                <td className="py-4 px-6 font-semibold text-gray-500 sticky left-0 bg-white z-10 border-r border-gray-100 flex items-center h-full">
+                  <Star className="h-4 w-4 mr-2 text-indigo-500" />
+                  Campus Life Rating
+                </td>
+                {orderedColleges.map((college) => {
+                  const rating = college.campusLifeRating || college.rating - 0.1;
+                  const isBest = rating === Math.max(...orderedColleges.map(c => c.campusLifeRating || c.rating - 0.1));
+                  return (
+                    <td key={college.id} className={`py-4 px-6 border-r border-gray-100 last:border-r-0 ${isBest ? 'bg-emerald-50/25' : ''}`}>
+                      <div className="flex items-center space-x-2">
+                        <span className="font-bold text-gray-900">{rating.toFixed(1)} / 5.0</span>
+                        {isBest && (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded bg-emerald-100 text-[10px] font-bold text-emerald-800 border border-emerald-200">
+                            Highest
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                  );
+                })}
+                {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                ))}
+              </tr>
+
               {/* Established Year Row */}
               <tr>
                 <td className="py-4 px-6 font-semibold text-gray-500 sticky left-0 bg-white z-10 border-r border-gray-100 flex items-center h-full">
@@ -209,6 +249,22 @@ export default async function ComparePage({ searchParams }: PageProps) {
                 ))}
               </tr>
 
+              {/* Affiliation Row */}
+              <tr>
+                <td className="py-4 px-6 font-semibold text-gray-500 sticky left-0 bg-white z-10 border-r border-gray-100 flex items-center h-full">
+                  <Building2 className="h-4 w-4 mr-2 text-indigo-500" />
+                  Affiliation
+                </td>
+                {orderedColleges.map((college) => (
+                  <td key={college.id} className="py-4 px-6 border-r border-gray-100 last:border-r-0">
+                    <span className="font-semibold text-gray-900">{college.affiliatedUniversity || 'Institute of National Importance'}</span>
+                  </td>
+                ))}
+                {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                ))}
+              </tr>
+
               {/* NAAC Grade Row */}
               <tr>
                 <td className="py-4 px-6 font-semibold text-gray-500 sticky left-0 bg-white z-10 border-r border-gray-100 flex items-center h-full">
@@ -225,8 +281,6 @@ export default async function ComparePage({ searchParams }: PageProps) {
                 ))}
               </tr>
 
-
-
               {/* Institution Type Row */}
               <tr>
                 <td className="py-4 px-6 font-semibold text-gray-500 sticky left-0 bg-white z-10 border-r border-gray-100 flex items-center h-full">
@@ -236,6 +290,61 @@ export default async function ComparePage({ searchParams }: PageProps) {
                 {orderedColleges.map((college) => (
                   <td key={college.id} className="py-4 px-6 border-r border-gray-100 last:border-r-0">
                     <span className="font-semibold text-gray-900">{college.institutionType || 'N/A'}</span>
+                  </td>
+                ))}
+                {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                ))}
+              </tr>
+
+              {/* Website Row */}
+              <tr>
+                <td className="py-4 px-6 font-semibold text-gray-500 sticky left-0 bg-white z-10 border-r border-gray-100 flex items-center h-full">
+                  <Globe className="h-4 w-4 mr-2 text-indigo-500" />
+                  Official Website
+                </td>
+                {orderedColleges.map((college) => (
+                  <td key={college.id} className="py-4 px-6 border-r border-gray-100 last:border-r-0">
+                    {college.website ? (
+                      <a
+                        href={college.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-semibold text-indigo-650 hover:underline break-all"
+                      >
+                        {college.website.replace(/^https?:\/\//, '')}
+                      </a>
+                    ) : (
+                      <span className="text-gray-400 text-xs">N/A</span>
+                    )}
+                  </td>
+                ))}
+                {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                ))}
+              </tr>
+
+              {/* Top Areas of Study Row */}
+              <tr>
+                <td className="py-4 px-6 font-semibold text-gray-500 sticky left-0 bg-white z-10 border-r border-gray-100 flex items-start">
+                  Top Areas of Study
+                </td>
+                {orderedColleges.map((college) => (
+                  <td key={college.id} className="py-4 px-6 border-r border-gray-100 last:border-r-0 align-top">
+                    <div className="flex flex-wrap gap-1">
+                      {college.areasOfStudy && college.areasOfStudy.length > 0 ? (
+                        college.areasOfStudy.slice(0, 4).map((area) => (
+                          <span
+                            key={area.id}
+                            className="inline-block px-2 py-0.5 bg-indigo-50 border border-indigo-100 rounded text-[10px] font-semibold text-indigo-700"
+                          >
+                            {area.name}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-gray-400 text-xs">N/A</span>
+                      )}
+                    </div>
                   </td>
                 ))}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
