@@ -7,11 +7,18 @@ import { GitCompare, X, Bookmark, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
+import { usePathname } from 'next/navigation';
 
 export default function FloatingCompareBar() {
   const { compareColleges, removeFromCompare, clearCompare } = useCompare();
   const { data: session } = useSession();
   const [isSaving, setIsSaving] = useState(false);
+  const pathname = usePathname();
+
+  // Only show comparison pin drawer on the colleges explore directory pages
+  if (pathname !== '/colleges' && !pathname.startsWith('/colleges/')) {
+    return null;
+  }
 
   if (compareColleges.length === 0) return null;
 
