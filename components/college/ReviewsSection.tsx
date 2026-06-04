@@ -133,7 +133,7 @@ export default function ReviewsSection({ collegeId, reviews: initialReviews }: R
 
       {/* Right Col: Write a review form */}
       <div className="lg:col-span-1">
-        <div className="sticky top-24 bg-white border border-gray-150 rounded-xl p-5 shadow-xs space-y-4">
+        <div className="sticky top-32 bg-white border border-gray-150 rounded-xl p-5 shadow-xs space-y-4">
           <h3 className="font-bold text-base text-gray-900 flex items-center border-b border-gray-100 pb-3">
             <MessageSquarePlus className="h-4.5 w-4.5 text-indigo-600 mr-2" />
             Write a Review
