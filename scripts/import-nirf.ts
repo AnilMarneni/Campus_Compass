@@ -4,22 +4,23 @@ import * as bcrypt from 'bcryptjs';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { PrismaNeon } from '@prisma/adapter-neon';
-import { neonConfig } from '@neondatabase/serverless';
-import ws from 'ws';
-
-neonConfig.webSocketConstructor = ws;
+import { PrismaPg } from '@prisma/adapter-pg';
+import pg from 'pg';
 
 let prisma: PrismaClient;
+let pool: pg.Pool;
 
 async function main() {
   const connectionString = process.env.DATABASE_URL || '';
-  const adapter = new PrismaNeon({ connectionString });
+  pool = new pg.Pool({ connectionString });
+  const adapter = new PrismaPg(pool);
   prisma = new PrismaClient({ adapter });
 
   console.log('--- NIRF Import Pipeline: Core Stage ---');
   console.log('Wiping existing database entries...');
   
+  await prisma.savedComparison.deleteMany({});
+  await prisma.cutoff.deleteMany({});
   await prisma.savedCollege.deleteMany({});
   await prisma.review.deleteMany({});
   await prisma.course.deleteMany({});
@@ -57,36 +58,29 @@ interface NirfRanking {
   const nirfList: NirfRanking[] = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   console.log(`Loaded ${nirfList.length} NIRF ranking records. Creating base colleges...`);
 
-  // Write base colleges in small batches to manage Neon WebSocket queries
-  for (let idx = 0; idx < nirfList.length; idx++) {
-    const item = nirfList[idx];
+  const collegesData = nirfList.map((item, idx) => ({
+    name: item.name,
+    location: item.location,
+    description: `${item.name} is a premier institutional ranking participant, situated in ${item.location}. Ranked #${item.rank} in the NIRF ${item.category} classification, this institution is recognized for national excellence.`,
+    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&auto=format&fit=crop&q=80',
+    fees: 0,
+    rating: 4.0 + (idx % 10) * 0.1,
+    placementRate: 0.0,
+    averagePackage: 0.0,
+    highestPackage: 0.0,
+    nirfRank: item.rank,
+    nirfScore: item.score,
+    nirfCategory: item.category,
+    nirfYear: item.year,
+    institutionType: item.institutionType,
+    establishedYear: 2000,
+    ownershipType: 'Public'
+  }));
 
-    // Create a base college row with placeholders for fields to be enriched in the next stage
-    await prisma.college.create({
-      data: {
-        name: item.name,
-        location: item.location,
-        description: `${item.name} is a premier institutional ranking participant, situated in ${item.location}. Ranked #${item.rank} in the NIRF ${item.category} classification, this institution is recognized for national excellence.`,
-        image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&auto=format&fit=crop&q=80',
-        fees: 0,
-        rating: 4.0 + (idx % 10) * 0.1,
-        placementRate: 0.0,
-        averagePackage: 0.0,
-        highestPackage: 0.0,
-        nirfRank: item.rank,
-        nirfScore: item.score,
-        nirfCategory: item.category,
-        nirfYear: item.year,
-        institutionType: item.institutionType,
-        establishedYear: 2000,
-        ownershipType: 'Public'
-      }
-    });
-
-    if ((idx + 1) % 25 === 0) {
-      console.log(`Progress: Created ${idx + 1} colleges...`);
-    }
-  }
+  console.log(`Inserting ${collegesData.length} colleges via createMany...`);
+  await prisma.college.createMany({
+    data: collegesData,
+  });
 
   console.log('Stage Completed: Base NIRF rankings imported successfully!');
 }
@@ -97,5 +91,10 @@ main()
     process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect();
+    if (prisma) {
+      await prisma.$disconnect();
+    }
+    if (pool) {
+      await pool.end();
+    }
   });

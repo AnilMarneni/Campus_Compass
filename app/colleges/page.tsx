@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { CollegesQuerySchema } from '@/lib/validations';
+import { Prisma } from '@prisma/client';
 import CollegeCard from '@/components/college/CollegeCard';
 import FilterSidebar from '@/components/filters/FilterSidebar';
 import MobileFilterDrawer from '@/components/filters/MobileFilterDrawer';
@@ -63,12 +64,12 @@ export default async function CollegesPage({ searchParams }: PageProps) {
     limit,
   } = query;
 
-  const where: any = {
+  const where: Prisma.CollegeWhereInput = {
     rating: { gte: minRating },
     fees: { gte: minFees, lte: maxFees },
   };
 
-  const andConditions: any[] = [];
+  const andConditions: Prisma.CollegeWhereInput[] = [];
 
   if (search) {
     const keywords = search.split(/\s+/).filter(Boolean);
@@ -119,7 +120,7 @@ export default async function CollegesPage({ searchParams }: PageProps) {
     where.AND = andConditions;
   }
 
-  const orderBy: any = {};
+  const orderBy: Prisma.CollegeOrderByWithRelationInput = {};
   if (sortBy === 'rating') {
     orderBy.rating = sortOrder;
   } else if (sortBy === 'fees') {
@@ -184,7 +185,9 @@ export default async function CollegesPage({ searchParams }: PageProps) {
       <div className="flex flex-col md:flex-row gap-8">
         {/* Left Side Filters (Desktop Sidebar) */}
         <div className="hidden md:block w-72 shrink-0">
-          <FilterSidebar />
+          <Suspense fallback={<div className="animate-pulse bg-gray-100 rounded-xl h-[500px] w-full" />}>
+            <FilterSidebar />
+          </Suspense>
         </div>
 
         {/* Mobile Filters Drawer trigger */}

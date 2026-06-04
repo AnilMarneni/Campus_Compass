@@ -40,8 +40,23 @@ export const CompareQuerySchema = z.object({
   ),
 });
 
+export const PredictorQuerySchema = z.object({
+  exam: z.string().min(1, "Exam is required"),
+  stream: z.string().min(1, "Stream preference is required"),
+  category: z.string().min(1, "Category is required"),
+  rank: z.coerce.number().min(1, "Rank must be at least 1"),
+});
+
+export const SaveComparisonSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  collegeIds: z.array(z.string()).min(1, "At least one College ID is required").max(3, "You can compare up to 3 colleges"),
+});
+
 export type CollegesQueryInput = z.infer<typeof CollegesQuerySchema>;
 export type RegisterInput = z.infer<typeof RegisterSchema>;
 export type LoginInput = z.infer<typeof LoginSchema>;
 export type SavedActionInput = z.infer<typeof SavedActionSchema>;
 export type CompareQueryInput = z.infer<typeof CompareQuerySchema>;
+export type PredictorQueryInput = z.infer<typeof PredictorQuerySchema>;
+export type SaveComparisonInput = z.infer<typeof SaveComparisonSchema>;
+

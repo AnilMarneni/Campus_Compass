@@ -7,13 +7,14 @@ generator client {
 }
 
 model User {
-  id        String         @id @default(cuid())
-  name      String?
-  email     String         @unique
-  password  String?
-  image     String?
-  saved     SavedCollege[]
-  createdAt DateTime       @default(now())
+  id          String            @id @default(cuid())
+  name        String?
+  email       String            @unique
+  password    String?
+  image       String?
+  saved       SavedCollege[]
+  comparisons SavedComparison[]
+  createdAt   DateTime          @default(now())
 }
 
 model College {
@@ -52,6 +53,8 @@ model College {
   courses         Course[]
   reviews         Review[]
   savedBy         SavedCollege[]
+  cutoffs         Cutoff[]
+  comparisons     SavedComparison[] @relation("SavedComparisonColleges")
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 
@@ -113,4 +116,28 @@ model AreaOfStudy {
   college   College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
 
   @@index([collegeId])
+}
+
+model SavedComparison {
+  id        String   @id @default(cuid())
+  name      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  colleges  College[] @relation("SavedComparisonColleges")
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Cutoff {
+  id         String  @id @default(cuid())
+  college    College @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+  collegeId  String
+  exam       String  // E.g. "JEE Main", "CAT", "GATE"
+  stream     String  // E.g. "Computer Science", "Mechanical Engineering", "Business Management"
+  category   String  // E.g. "General", "OBC", "SC", "ST"
+  cutoffRank Int
+
+  @@index([collegeId])
+  @@index([exam, category, cutoffRank])
 }

@@ -80,40 +80,44 @@ export default async function ComparePage({ searchParams }: PageProps) {
 
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      <CompareTracker ids={ids} />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 print:py-2">
+      <div className="print:hidden">
+        <CompareTracker ids={ids} />
+      </div>
       
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-100">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-100 print:pb-2 print:border-b-0">
         <div className="space-y-1">
-          <Link href="/colleges" className="flex items-center text-xs font-semibold text-gray-500 hover:text-indigo-600 transition-colors mb-2">
+          <Link href="/colleges" className="flex items-center text-xs font-semibold text-gray-500 hover:text-indigo-650 transition-colors mb-2 print:hidden">
             <ArrowLeft className="h-3 w-3 mr-1" />
             Back to explore list
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 flex items-center">
-            <GitCompare className="mr-2 h-7 w-7 text-indigo-600" />
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 flex items-center print:text-xl">
+            <GitCompare className="mr-2 h-7 w-7 text-indigo-600 print:hidden" />
             Compare Colleges
           </h1>
-          <p className="text-sm text-gray-500 font-medium">
+          <p className="text-sm text-gray-500 font-medium print:hidden">
             Review side-by-side matrices to pick the best academic institution.
           </p>
         </div>
-        <CompareActions collegeNames={orderedColleges.map((c) => c.name)} />
+        <div className="print:hidden">
+          <CompareActions collegeNames={orderedColleges.map((c) => c.name)} />
+        </div>
       </div>
 
       {/* Comparison Matrix Table */}
-      <div className="bg-white border border-gray-150 rounded-xl overflow-hidden shadow-xs">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[800px]">
+      <div className="bg-white border border-gray-150 rounded-xl overflow-hidden shadow-xs print:border-0 print:shadow-none">
+        <div className="overflow-x-auto print:overflow-x-visible">
+          <table className="w-full text-left border-collapse min-w-[800px] print:min-w-0">
             <thead>
-              <tr className="bg-slate-50 border-b border-gray-100">
+              <tr className="bg-slate-50 border-b border-gray-100 print:bg-white">
                 {/* Metrics header column */}
-                <th className="py-5 px-6 font-bold text-xs uppercase tracking-wider text-gray-400 w-1/4 sticky top-16 left-0 bg-slate-50 z-30 border-r border-gray-100">
+                <th className="py-5 px-6 font-bold text-xs uppercase tracking-wider text-gray-400 w-1/4 sticky top-16 left-0 bg-slate-50 z-30 border-r border-gray-100 print:static print:z-auto print:bg-white">
                   Key Metrics
                 </th>
                 {/* College columns */}
                 {orderedColleges.map((college) => (
-                  <th key={college.id} className="py-5 px-6 w-1/4 align-top border-r border-gray-100 last:border-r-0 sticky top-16 bg-slate-50 z-20">
+                  <th key={college.id} className="py-5 px-6 w-1/4 align-top border-r border-gray-100 last:border-r-0 sticky top-16 bg-slate-50 z-20 print:static print:z-auto print:bg-white">
                     <div className="space-y-4">
                       {/* Image thumbnail */}
                       <div className="h-28 w-full rounded-lg overflow-hidden relative border border-gray-100">
@@ -137,10 +141,10 @@ export default async function ComparePage({ searchParams }: PageProps) {
                 ))}
                 {/* Fill empty comparison slots */}
                 {Array.from({ length: Math.max(0, 3 - orderedColleges.length) }).map((_, idx) => (
-                  <th key={`empty-${idx}`} className="py-5 px-6 w-1/4 align-middle text-center bg-gray-50/20 border-r border-gray-100 last:border-r-0">
+                  <th key={`empty-${idx}`} className="py-5 px-6 w-1/4 align-middle text-center bg-gray-50/20 border-r border-gray-100 last:border-r-0 print:hidden">
                     <Link href="/colleges" className="inline-flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-250 hover:border-indigo-400 hover:bg-indigo-50/20 rounded-xl group transition-all">
-                      <Plus className="h-5 w-5 text-gray-400 group-hover:text-indigo-600 transition-colors" />
-                      <span className="text-xs font-semibold text-gray-500 mt-2 group-hover:text-indigo-600 transition-colors">
+                      <Plus className="h-5 w-5 text-gray-400 group-hover:text-indigo-650 transition-colors" />
+                      <span className="text-xs font-semibold text-gray-550 mt-2 group-hover:text-indigo-650 transition-colors">
                         Add College
                       </span>
                     </Link>
@@ -179,7 +183,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   );
                 })}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -206,7 +210,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   );
                 })}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -222,7 +226,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   </td>
                 ))}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -238,7 +242,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   </td>
                 ))}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -254,7 +258,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   </td>
                 ))}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -270,7 +274,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   </td>
                 ))}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -286,7 +290,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   </td>
                 ))}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -313,7 +317,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   </td>
                 ))}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -341,7 +345,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   </td>
                 ))}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -374,7 +378,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   );
                 })}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -407,7 +411,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   );
                 })}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -435,7 +439,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   );
                 })}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -463,7 +467,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   );
                 })}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -491,7 +495,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   </td>
                 ))}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -514,7 +518,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   </td>
                 ))}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
 
@@ -538,7 +542,7 @@ export default async function ComparePage({ searchParams }: PageProps) {
                   </td>
                 ))}
                 {Array.from({ length: 3 - orderedColleges.length }).map((_, idx) => (
-                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10">—</td>
+                  <td key={idx} className="py-4 px-6 text-gray-300 border-r border-gray-100 last:border-r-0 bg-gray-50/10 print:hidden">—</td>
                 ))}
               </tr>
             </tbody>

@@ -2,13 +2,11 @@ import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import * as fs from 'fs';
 import * as path from 'path';
-import { PrismaNeon } from '@prisma/adapter-neon';
-import { neonConfig } from '@neondatabase/serverless';
-import ws from 'ws';
-
-neonConfig.webSocketConstructor = ws;
+import { PrismaPg } from '@prisma/adapter-pg';
+import pg from 'pg';
 
 let prisma: PrismaClient;
+let pool: pg.Pool;
 
 // Categories configuration for streams
 const techCourses = [
@@ -60,7 +58,8 @@ const comments = [
 
 async function main() {
   const connectionString = process.env.DATABASE_URL || '';
-  const adapter = new PrismaNeon({ connectionString });
+  pool = new pg.Pool({ connectionString });
+  const adapter = new PrismaPg(pool);
   prisma = new PrismaClient({ adapter });
 
   console.log('--- NIRF Import Pipeline: Enrichment Stage ---');
@@ -185,6 +184,55 @@ interface CollegeEnrichment {
           }
         ];
 
+        // Generate Cutoffs based on category
+        const cutoffCreate: { exam: string; stream: string; category: string; cutoffRank: number }[] = [];
+        if (item.category === 'TECH') {
+          const streams = ['Computer Science', 'Mechanical Engineering', 'Electronics & Communication', 'Electrical Engineering'];
+          const categoriesList = ['General', 'OBC', 'SC', 'ST'];
+          streams.forEach((stream, sIdx) => {
+            categoriesList.forEach((cat, cIdx) => {
+              const baseRank = (sIdx + 1) * 1500 + cIdx * 3500;
+              const finalRank = Math.floor(baseRank * (0.95 + Math.random() * 0.1));
+              cutoffCreate.push({
+                exam: 'JEE Main',
+                stream,
+                category: cat,
+                cutoffRank: finalRank
+              });
+            });
+          });
+        } else if (item.category === 'MGMT') {
+          const streams = ['Business Management', 'Finance', 'Marketing', 'Human Resources'];
+          const categoriesList = ['General', 'OBC', 'SC', 'ST'];
+          streams.forEach((stream, sIdx) => {
+            categoriesList.forEach((cat, cIdx) => {
+              const baseRank = (sIdx + 1) * 100 + cIdx * 250;
+              const finalRank = Math.floor(baseRank * (0.95 + Math.random() * 0.1));
+              cutoffCreate.push({
+                exam: 'CAT',
+                stream,
+                category: cat,
+                cutoffRank: finalRank
+              });
+            });
+          });
+        } else {
+          const streams = ['Economics', 'Commerce', 'English Literature', 'Physics'];
+          const categoriesList = ['General', 'OBC', 'SC', 'ST'];
+          streams.forEach((stream, sIdx) => {
+            categoriesList.forEach((cat, cIdx) => {
+              const baseRank = (sIdx + 1) * 80 + cIdx * 150;
+              const finalRank = Math.floor(baseRank * (0.95 + Math.random() * 0.1));
+              cutoffCreate.push({
+                exam: 'CUET',
+                stream,
+                category: cat,
+                cutoffRank: finalRank
+              });
+            });
+          });
+        }
+
         // Update college details
         await prisma.college.update({
           where: { id: college.id },
@@ -221,6 +269,9 @@ interface CollegeEnrichment {
             },
             areasOfStudy: {
               create: areas.map((areaName: string) => ({ name: areaName }))
+            },
+            cutoffs: {
+              create: cutoffCreate
             }
           }
         });
@@ -241,5 +292,8 @@ main()
   .finally(async () => {
     if (prisma) {
       await prisma.$disconnect();
+    }
+    if (pool) {
+      await pool.end();
     }
   });

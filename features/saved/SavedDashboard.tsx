@@ -30,8 +30,16 @@ interface SavedCollegeItem {
   college: College;
 }
 
+interface SavedComparisonItem {
+  id: string;
+  name: string;
+  colleges: College[];
+  createdAt: Date;
+}
+
 interface SavedDashboardProps {
   initialSaved: SavedCollegeItem[];
+  initialComparisons?: SavedComparisonItem[];
   user: {
     name?: string | null;
     email?: string | null;
@@ -39,14 +47,33 @@ interface SavedDashboardProps {
   };
 }
 
-export default function SavedDashboard({ initialSaved, user }: SavedDashboardProps) {
+export default function SavedDashboard({ initialSaved, initialComparisons = [], user }: SavedDashboardProps) {
   const [savedItems, setSavedItems] = useState<SavedCollegeItem[]>(initialSaved);
+  const [savedComparisons, setSavedComparisons] = useState<SavedComparisonItem[]>(initialComparisons);
   const [compareSelection, setCompareSelection] = useState<string[]>([]);
   const [totalComparisons, setTotalComparisons] = useState(4);
 
   const handleUnsave = (collegeId: string) => {
     setSavedItems((prev) => prev.filter((item) => item.college.id !== collegeId));
     setCompareSelection((prev) => prev.filter((id) => id !== collegeId));
+  };
+
+  const handleDeleteComparison = async (comparisonId: string) => {
+    try {
+      const res = await fetch(`/api/compare/${comparisonId}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        setSavedComparisons((prev) => prev.filter((c) => c.id !== comparisonId));
+        toast.success('Comparison set successfully deleted');
+      } else {
+        const data = await res.json();
+        toast.error(data.error || 'Failed to delete comparison');
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error('An error occurred');
+    }
   };
 
   // Sync with client-side comparisons count
@@ -308,6 +335,53 @@ export default function SavedDashboard({ initialSaved, user }: SavedDashboardPro
                   Discover more colleges
                   <ArrowRight className="h-3 w-3" />
                 </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Saved Comparisons Panel */}
+          <div className="bg-white border border-gray-150 rounded-xl p-5 shadow-3xs space-y-4">
+            <h4 className="font-bold text-xs text-gray-900 flex items-center uppercase tracking-wider border-b border-gray-50 pb-2">
+              <GitCompare className="h-4 w-4 text-indigo-500 mr-2" />
+              Saved Comparisons
+            </h4>
+            
+            {savedComparisons.length === 0 ? (
+              <p className="text-xs text-gray-400 font-medium leading-relaxed">
+                No saved comparison sets. Use the "Save Set" button in the compare bar to save your shortlists here.
+              </p>
+            ) : (
+              <div className="space-y-4 divide-y divide-gray-50">
+                {savedComparisons.map((set, sIdx) => {
+                  const setIds = set.colleges.map((c) => c.id).join(',');
+                  const compareSetUrl = `/compare?ids=${setIds}`;
+                  return (
+                    <div key={set.id} className={`flex flex-col space-y-2 ${sIdx > 0 ? 'pt-3' : ''}`}>
+                      <div className="flex justify-between items-start gap-2">
+                        <span className="text-xs font-bold text-gray-800 line-clamp-1">
+                          {set.name}
+                        </span>
+                        <button
+                          onClick={() => handleDeleteComparison(set.id)}
+                          className="text-gray-450 hover:text-red-500 transition-colors p-0.5 rounded cursor-pointer shrink-0"
+                          title="Delete saved set"
+                        >
+                          <HeartOff className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                      <div className="flex items-center justify-between text-[10px] text-gray-400 font-semibold">
+                        <span>{set.colleges.length} colleges</span>
+                        <Link
+                          href={compareSetUrl}
+                          className="text-indigo-650 hover:text-indigo-850 font-bold flex items-center gap-0.5"
+                        >
+                          Launch Compare
+                          <ArrowRight className="h-3 w-3" />
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>

@@ -37,6 +37,23 @@ export default async function DashboardPage() {
     },
   });
 
+  // Fetch saved comparison sets for the authenticated user
+  const savedComparisons = await prisma.savedComparison.findMany({
+    where: {
+      userId: session.user.id,
+    },
+    include: {
+      colleges: {
+        include: {
+          courses: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <div className="space-y-1">
@@ -50,6 +67,7 @@ export default async function DashboardPage() {
 
       <SavedDashboard
         initialSaved={savedColleges}
+        initialComparisons={savedComparisons}
         user={{
           name: session.user.name,
           email: session.user.email,

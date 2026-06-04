@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { apiSuccess, apiError } from '@/lib/utils';
 import { CollegesQuerySchema } from '@/lib/validations';
+import { Prisma } from '@prisma/client';
 
 export async function GET(request: NextRequest) {
   try {
@@ -28,12 +29,12 @@ export async function GET(request: NextRequest) {
       limit,
     } = parsed.data;
 
-    const where: any = {
+    const where: Prisma.CollegeWhereInput = {
       rating: { gte: minRating },
       fees: { gte: minFees, lte: maxFees },
     };
 
-    const andConditions: any[] = [];
+    const andConditions: Prisma.CollegeWhereInput[] = [];
 
     // Search query: split by spaces and match keywords across multiple fields
     if (search) {
@@ -90,7 +91,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Dynamic ordering
-    const orderBy: any = {};
+    const orderBy: Prisma.CollegeOrderByWithRelationInput = {};
     if (sortBy === 'rating') {
       orderBy.rating = sortOrder;
     } else if (sortBy === 'fees') {

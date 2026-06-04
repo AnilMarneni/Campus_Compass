@@ -42,6 +42,15 @@ export default function Navbar() {
             </Link>
             
             <Link
+              href="/predictor"
+              className={`text-sm font-medium transition-colors ${
+                isActive('/predictor') ? 'text-indigo-600' : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              College Predictor
+            </Link>
+
+            <Link
               href="/compare"
               className={`flex items-center text-sm font-medium transition-colors relative ${
                 isActive('/compare') ? 'text-indigo-600' : 'text-gray-600 hover:text-gray-900'
@@ -135,6 +144,15 @@ export default function Navbar() {
               }`}
             >
               Explore Colleges
+            </Link>
+            <Link
+              href="/predictor"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`block px-3 py-2.5 rounded-md text-base font-medium ${
+                isActive('/predictor') ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              College Predictor
             </Link>
             <Link
               href="/compare"

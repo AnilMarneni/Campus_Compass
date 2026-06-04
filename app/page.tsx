@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   }
 };
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 export default async function HomePage() {
   // Query 3 highly rated colleges for the landing page featured section

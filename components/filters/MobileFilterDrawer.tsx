@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { SlidersHorizontal, X } from 'lucide-react';
 import FilterSidebar from './FilterSidebar';
 import { Button } from '@/components/ui/button';
@@ -37,7 +37,9 @@ export default function MobileFilterDrawer() {
 
             {/* Filter sidebar content */}
             <div className="mt-8 flex-grow">
-              <FilterSidebar />
+              <Suspense fallback={<div className="animate-pulse bg-gray-150 rounded-xl h-[400px] w-full" />}>
+                <FilterSidebar />
+              </Suspense>
             </div>
 
             {/* View results action */}

@@ -30,7 +30,7 @@ export default function RootLayout({
           <CompareProvider>
             <LayoutWrapper>{children}</LayoutWrapper>
             <FloatingCompareBar />
-            <Toaster position="bottom-right" richColors />
+            <Toaster position="top-right" richColors />
           </CompareProvider>
         </AuthProvider>
       </body>

@@ -11,9 +11,12 @@ interface CompareActionsProps {
 
 export default function CompareActions({ collegeNames }: CompareActionsProps) {
   const handleExportPDF = () => {
-    toast.success('PDF Export Started', {
-      description: `Generating comparison report for ${collegeNames.join(', ')}.`,
+    toast.success('Opening print window...', {
+      description: 'Select "Save as PDF" to download the comparison report.',
     });
+    setTimeout(() => {
+      window.print();
+    }, 400);
   };
 
   const handleShareComparison = () => {

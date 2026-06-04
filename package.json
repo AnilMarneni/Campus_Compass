@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "import:nirf": "npx tsx scripts/import-nirf.ts",
-    "enrich:colleges": "npx tsx scripts/enrich-colleges.ts"
+    "enrich:colleges": "npx tsx scripts/enrich-colleges.ts",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
@@ -18,6 +19,7 @@
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
     "bcryptjs": "^3.0.3",
+    "bufferutil": "^4.1.0",
     "clsx": "^2.1.1",
     "lucide-react": "^1.17.0",
     "next": "15.5.18",
@@ -45,5 +47,8 @@
     "tailwindcss": "^4",
     "tsx": "^4.22.3",
     "typescript": "^5"
+  },
+  "overrides": {
+    "uuid": "^9.0.0"
   }
 }
